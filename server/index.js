@@ -16,6 +16,7 @@ express()
       "Origin, X-Requested-With, Content-Type, Accept"
     );
     console.log("this is the test");
+    console.log("HELLO CANNN!");
     next();
   })
   .use(morgan("tiny"))
