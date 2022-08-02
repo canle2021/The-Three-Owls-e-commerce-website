@@ -1,17 +1,21 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "This the backend app for e-Commerce Team #1",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Can Le, Leangheng Ou, Chinmay Batra, Yves Anglade",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "moment": "^2.29.4",
+    "mongodb": "^4.8.1",
+    "morgan": "^1.10.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
