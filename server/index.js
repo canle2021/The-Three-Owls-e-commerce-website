@@ -10,6 +10,7 @@ const {
   getSingleCompany,
   getSingleCategory,
   getProductByCompany,
+  getCategories,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -42,5 +43,6 @@ express()
   .get("/get-company/:_id", getSingleCompany)
   .get("/get-items/:category", getSingleCategory)
   .get("/get-itemsByCompany/:companyId", getProductByCompany)
+  .get("/get-categories", getCategories)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
