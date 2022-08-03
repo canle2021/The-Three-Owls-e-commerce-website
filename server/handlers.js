@@ -259,7 +259,7 @@ const getCategories = async (req, res) => {
       .project({ category: 1, _id: 0 })
       .toArray();
 
-    if (retrieveCategories) {
+    if (retrieveCategories.length > 0) {
       let categoriesRepeated = [];
       retrieveCategories.forEach((element) => {
         categoriesRepeated.push(element.category);
