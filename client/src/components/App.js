@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "./Header";
 import FeaturedCategories from "./FeaturedCategories";
 import Slider from "./Slider";
+import ProductSection from "./ProductSection";
 
 function App() {
   const [bacon, setBacon] = useState(null);
@@ -19,12 +20,15 @@ function App() {
       <Slider />
       <SectionTitle>Featured Categories</SectionTitle>
       <FeaturedCategories />
+      <SectionTitle>Product Section</SectionTitle>
+      <ProductSection />
     </SizeContainer>
   );
 }
 
 const SizeContainer = styled.div`
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,5 +42,6 @@ const SectionTitle = styled.h2`
   font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 50px;
+  margin-top: 50px;
 `;
 export default App;
