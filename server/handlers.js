@@ -243,6 +243,47 @@ const getSingleCompany = async (req, res) => {
   }
 };
 
+const getCategories = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const dbName = "ecommerce";
+
+  // typeOf _id in each item in DB is a number, this step to transform req params to number for searching purpose.
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+
+    const retrieveCategories = await db
+      .collection("items")
+      .find()
+      .project({ category: 1, _id: 0 })
+      .toArray();
+
+    if (retrieveCategories.length > 0) {
+      let categoriesRepeated = [];
+      retrieveCategories.forEach((element) => {
+        categoriesRepeated.push(element.category);
+      });
+      const categoriesArray = [...new Set(categoriesRepeated)];
+
+      return res.status(200).json({
+        status: 200,
+        message: `You successfully get all the categories`,
+        data: categoriesArray,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        message: `Categories could not be found`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: err.message });
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   getItems,
   getCompanies,
@@ -250,4 +291,5 @@ module.exports = {
   getSingleCompany,
   getSingleCategory,
   getProductByCompany,
+  getCategories,
 };
