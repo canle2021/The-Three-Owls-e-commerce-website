@@ -6,6 +6,10 @@ const morgan = require("morgan");
 const {
   getItems,
   getCompanies,
+  getSingleProduct,
+  getSingleCompany,
+  getSingleCategory,
+  getProductByCompany,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -20,8 +24,8 @@ express()
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     );
-    console.log("this is the test");
-    console.log("HELLO CANNN!");
+    // console.log("this is the test");
+    // console.log("HELLO CANNN!");
     next();
   })
   .use(morgan("tiny"))
@@ -34,5 +38,9 @@ express()
   .get("/bacon", (req, res) => res.status(200).json("🥓"))
   .get("/get-items", getItems)
   .get("/get-companies", getCompanies)
+  .get("/get-item/:_id", getSingleProduct)
+  .get("/get-company/:_id", getSingleCompany)
+  .get("/get-items/:category", getSingleCategory)
+  .get("/get-itemsByCompany/:companyId", getProductByCompany)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
