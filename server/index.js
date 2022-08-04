@@ -49,7 +49,7 @@ express()
   .get("/get-itemsByCompany/:companyId", getProductByCompany)
   .get("/get-categories", getCategories)
   .get("/get-customer/:_id", getSingleCustomer)
-  .post("/add-customer", addtomer)
+  .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
 
