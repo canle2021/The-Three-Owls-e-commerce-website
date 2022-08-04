@@ -12,6 +12,7 @@ const {
   getProductByCompany,
   getCategories,
   getSingleCustomer,
+  getItemStock,
   addCustomer,
   updateItem,
   updateItemStock,
@@ -49,6 +50,7 @@ express()
   .get("/get-itemsByCompany/:companyId", getProductByCompany)
   .get("/get-categories", getCategories)
   .get("/get-customer/:_id", getSingleCustomer)
+  .get("/get-item-stock/:_id", getItemStock)
   .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
