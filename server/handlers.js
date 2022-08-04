@@ -35,9 +35,6 @@ const getItems = async (req, res) => {
     // declare 'db'
     const db = client.db(dbName);
 
-    // const collections = await db.listCollections().toArray();
-    // const collectionExists = collections.some(c => c.name === "items");
-
     if (!(await collectionExists(db, "items"))) {
       return res
         .status(404)
@@ -352,7 +349,7 @@ const addCustomer = async (req, res) => {
 const client = new MongoClient(MONGO_URI, options);
 const dbName = "ecommerce";
 const body = req.body;
-const customerFields = ["firstname", "lastname", "emal"];
+const customerFields = ["firstname", "lastname", "email"];
 
 const newCustomer = {_id: uuidv4(), ...body};
 
@@ -362,14 +359,15 @@ try {
   const db = client.db(dbName);
 
   //check if the fields of the new customer are the right ones
-  const bodyFields = Object.keys(body).toArray();
-  const fieldsAreRightOnes = await bodyFields.every(field => customerFields.findIndex(field.toLowerCase()) >= 0 );
+  const bodyFields = Object.keys(body);
+  console.log(`bodyFields = `, bodyFields);
+  const fieldsAreRightOnes = bodyFields.every(field => customerFields.indexOf(field) >= 0);
 
 
   if (!fieldsAreRightOnes) {
     return res
      .status(500)
-     .json({ status: 500, message: `The fields for a new customer should be ${customerFields}` });
+     .json({ status: 500, message: `The fields for a new customer should be: ${customerFields}` });
   }
 
   //insert the reservation
