@@ -333,11 +333,59 @@ const getSingleCustomer = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    res
+      .status(500)
+      .json({ status: 500, message: err.message });
   } finally {
     client.close();
   }
 };
+
+
+/**********************************************************/
+/*  getItemStock: get quantity of an item in stock
+/**********************************************************/
+const getItemStock = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const dbName = "ecommerce";
+  const { _id } = req.params;
+
+  const _idToNumber = {
+    _id: Number.parseInt(_id),
+  };
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+
+    //check if items the collection exists
+    if (!(await collectionExists(db, "items"))) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "items collection does not exist" });
+    }
+
+    const retrievedItem = await db.collection("items").findOne(_idToNumber);
+
+    if (retrievedItem) {
+      return res
+        .status(200)
+        .json({ status: 200, data:{numInStock: retrievedItem.numInStock}, message: `Item  with id:${_id} has a quantity of ${retrievedItem.numInStock} in stock` });
+    }
+    else {
+      return res.status(404).json({
+        status: 404,
+        message: `The item with id:${_id} cannot be found.`,
+      });
+    }
+  }
+  catch (err) {
+    res
+      .status(500)
+      .json({ status: 500, message: err.message });
+  }
+};
+
 
 /**********************************************************/
 /*  addCustomer:  creates a new customer
@@ -547,6 +595,7 @@ module.exports = {
   getProductByCompany,
   getCategories,
   getSingleCustomer,
+  getItemStock,
   addCustomer,
   updateItem,
   updateItemStock,
