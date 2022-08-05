@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-
-const Header = () => {
+import { CurrentUserContext } from "./CurrentUserContext";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+const Header = ({ logo }) => {
+  const navigate = useNavigate();
+  const allCategoriesButton = (e) => {
+    navigate("/");
+  };
+  const shopLink = (e) => {
+    navigate("/catalog");
+  };
   return (
     <CompContainer>
       <TopBar>
         <TopBarText>Welcome to our store!</TopBarText>
       </TopBar>
-      <NavMiddleBox>{`Image Logo`}</NavMiddleBox>
+      <NavMiddleBox>
+        <LogoImg onClick={allCategoriesButton} src={logo} />
+        <CartButton>
+          <AiOutlineShoppingCart style={{ fontSize: "35px" }} />
+          <CartButtonText>Cart</CartButtonText>
+        </CartButton>
+      </NavMiddleBox>
       <NavMenu>
-        <NavLink>Home</NavLink>
-        <NavLink>Shop</NavLink>
+        <NavLink onClick={allCategoriesButton}>Home</NavLink>
+        <NavLink onClick={shopLink}>Shop</NavLink>
         <NavLink>Sale</NavLink>
         <NavLink>Contact us</NavLink>
         <NavLink>About us</NavLink>
@@ -66,6 +86,39 @@ const NavLink = styled.a`
   margin-right: 20px;
   color: white;
   font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  &:hover {
+    cursor: pointer;
+    color: #7900d9;
+    transition: 0.3s ease-in;
+  }
 `;
 
+const LogoImg = styled.img`
+  width: auto;
+  height: auto;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const CartButton = styled.div`
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin-left: 1150px;
+  &:hover {
+    cursor: pointer;
+    color: #7900d9;
+    transition: 0.3s ease-in;
+  }
+`;
+
+const CartButtonText = styled.div`
+  font-weight: 500;
+`;
 export default Header;
