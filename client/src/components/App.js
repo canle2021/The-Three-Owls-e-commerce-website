@@ -7,20 +7,14 @@ import Catelog from "./Catelog";
 import CollectionPage from "./CollectionPage";
 import ProductDetail from "./ProductDetail";
 import AddToCart from "./AddToCart";
+import Footer from "./Footer";
+import logo from "../components/asset/logo.png";
 
 function App() {
-  const [bacon, setBacon] = useState(null);
-
-  useEffect(() => {
-    fetch("/bacon")
-      .then((res) => res.json())
-      .then((data) => setBacon(data));
-  }, []);
-
   return (
     <Router>
       <SizeContainer>
-        <Header />
+        <Header logo={logo} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/catalog" element={<Catelog />} />
@@ -28,6 +22,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<AddToCart />} />
         </Routes>
+        <Footer />
       </SizeContainer>
     </Router>
   );
@@ -42,13 +37,4 @@ const SizeContainer = styled.div`
   align-items: center;
 `;
 
-const SectionTitle = styled.h2`
-  font-size: 35px;
-  color: black;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-bottom: 50px;
-  margin-top: 50px;
-`;
 export default App;
