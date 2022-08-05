@@ -2,6 +2,7 @@ import { Box } from "@material-ui/core";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
+import { Link } from "react-router-dom";
 
 const Catelog = () => {
   const { allCateogries } = useContext(CurrentUserContext);
@@ -11,12 +12,16 @@ const Catelog = () => {
       <SectionTitle>All categories</SectionTitle>
       <CompContainer>
         {allCateogries &&
-          allCateogries.map((categories) => {
+          allCateogries.map((categories, index) => {
+            const linkToEachCategory =
+              "/collection/" + `${allCateogries[index]}`;
             return (
-              <BoxContainer>
-                <CategoriesBox />
-                <CategoriesBoxTitle>{categories}</CategoriesBoxTitle>
-              </BoxContainer>
+              <Link to={linkToEachCategory}>
+                <BoxContainer>
+                  <CategoriesBox />
+                  <CategoriesBoxTitle>{categories}</CategoriesBoxTitle>
+                </BoxContainer>
+              </Link>
             );
           })}
       </CompContainer>
