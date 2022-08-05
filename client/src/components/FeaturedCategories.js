@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useNavigate,
+  Link,
 } from "react-router-dom";
 const FeaturedCategories = () => {
   const navigate = useNavigate();
@@ -14,22 +15,30 @@ const FeaturedCategories = () => {
   return (
     <DivCenter>
       <CompContainer>
-        <BoxContainer>
-          <CategoriesBox />
-          <CategoriesBoxTitle>Fitness</CategoriesBoxTitle>
-        </BoxContainer>
-        <BoxContainer>
-          <CategoriesBox />
-          <CategoriesBoxTitle>Entertainment</CategoriesBoxTitle>
-        </BoxContainer>
-        <BoxContainer>
-          <CategoriesBox />
-          <CategoriesBoxTitle>Gaming</CategoriesBoxTitle>
-        </BoxContainer>
-        <BoxContainer>
-          <CategoriesBox />
-          <CategoriesBoxTitle>Industrial</CategoriesBoxTitle>
-        </BoxContainer>
+        <Link to="/collection/Fitness">
+          <BoxContainer>
+            <CategoriesBox />
+            <CategoriesBoxTitle>Fitness</CategoriesBoxTitle>
+          </BoxContainer>
+        </Link>
+        <Link to="/collection/Entertainment">
+          <BoxContainer>
+            <CategoriesBox />
+            <CategoriesBoxTitle>Entertainment</CategoriesBoxTitle>
+          </BoxContainer>
+        </Link>
+        <Link to="/collection/Gaming">
+          <BoxContainer>
+            <CategoriesBox />
+            <CategoriesBoxTitle>Gaming</CategoriesBoxTitle>
+          </BoxContainer>
+        </Link>
+        <Link to="/collection/Industrial">
+          <BoxContainer>
+            <CategoriesBox />
+            <CategoriesBoxTitle>Industrial</CategoriesBoxTitle>
+          </BoxContainer>
+        </Link>
       </CompContainer>
       <ViewAllButton onClick={allCategoriesButton}>
         See all Categories
