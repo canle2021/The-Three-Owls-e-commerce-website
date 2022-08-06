@@ -16,6 +16,11 @@ const Header = ({ logo }) => {
   const shopLink = (e) => {
     navigate("/catalog");
   };
+
+  const accessCart = () => {
+    navigate("/cart");
+  };
+
   return (
     <CompContainer>
       <TopBar>
@@ -23,7 +28,7 @@ const Header = ({ logo }) => {
       </TopBar>
       <NavMiddleBox>
         <LogoImg onClick={allCategoriesButton} src={logo} />
-        <CartButton>
+        <CartButton onClick={accessCart}>
           <AiOutlineShoppingCart style={{ fontSize: "35px" }} />
           <CartButtonText>Cart</CartButtonText>
         </CartButton>
