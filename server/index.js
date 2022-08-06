@@ -54,5 +54,10 @@ express()
   .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
-
+  .get("*", (req, res) => {
+    res.status(404).json({
+      status: 404,
+      message: "This is obviously not what you are looking for.",
+    });
+  })
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
