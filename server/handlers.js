@@ -196,7 +196,7 @@ const getSingleCategory = async (req, res) => {
       .find({ category })
       .toArray();
 
-    if (retrieveCategory.length > 1) {
+    if (retrieveCategory.length > 0) {
       return res.status(200).json({
         status: 200,
         message: `You successfully get the category: ${category}`,
