@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
 import { logo } from "./asset/logo.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { allCateogries } = useContext(CurrentUserContext);
@@ -27,7 +28,11 @@ const FirstSection = ({ allCateogries }) => {
       <ul>
         {allCateogries &&
           allCateogries.map((categories) => {
-            return <LinkSelect key={categories}>{categories}</LinkSelect>;
+            return (
+              <Link to={`/collection/${categories}`}>
+                <LinkSelect key={categories}>{categories}</LinkSelect>
+              </Link>
+            );
           })}
       </ul>
     </ContentContainer>

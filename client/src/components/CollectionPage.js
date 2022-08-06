@@ -18,16 +18,16 @@ const CollectionPage = () => {
         console.log("err", err);
       });
   }, [category]);
-  // console.log("data", singleCategory);
-
+  console.log("data", singleCategory);
+  console.log("title", category);
   return (
     <>
       <Head1>This is the {category} page</Head1>
       <PageContainer>
         {singleCategory.map((element, index) => {
           return (
-            <Link to={`/product/${element._id}`}>
-              <ProductDiv key={index}>
+            <Link to={`/product/${element._id}`} key={index}>
+              <ProductDiv>
                 <img src={element.imageSrc}></img>
                 <ProductInforDiv>
                   <p>{element.name}</p>
@@ -50,12 +50,17 @@ const ProductDiv = styled.div`
   flex-direction: column;
   /* justify-content: center; */
   text-align: center;
+  width: 150px;
+  img {
+    width: 150px;
+    height: 200px;
+  }
 `;
 const ProductInforDiv = styled.div``;
 const PageContainer = styled.div`
   display: grid;
   /* grid-template-rows: repeat(10, 30px); */
-  grid-template-columns: 150px 150px 180px 150px 150px 150px;
+  grid-template-columns: 150px 150px 150px 150px 150px;
   gap: 12px 10px;
   /* flex-direction: column; */
   width: 1200px;
