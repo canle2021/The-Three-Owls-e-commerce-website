@@ -16,6 +16,8 @@ const {
   addCustomer,
   updateItem,
   updateItemStock,
+  checkOut,
+  getOrders,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -51,13 +53,15 @@ express()
   .get("/get-categories", getCategories)
   .get("/get-customer/:_id", getSingleCustomer)
   .get("/get-item-stock/:_id", getItemStock)
+  .get("/get-orders", getOrders)
   .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
+  .post("/add-order-and-checkout", checkOut)
   .get("*", (req, res) => {
     res.status(404).json({
       status: 404,
       message: "This is obviously not what you are looking for.",
     });
   })
-  .listen(PORT, () => console.info(`Listening on port ${PORT}`));
+  .listen(PORT, () => console.info(`LISTENING ON PORT ${PORT}`));
