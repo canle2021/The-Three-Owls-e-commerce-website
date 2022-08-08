@@ -96,6 +96,38 @@ const getCompanies = async (req, res) => {
     client.close();
   }
 };
+/**********************************************************/
+/*  getOders: returns all the orders
+/**********************************************************/
+const getOrders = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const dbName = "ecommerce";
+
+  try {
+    // connect...
+    await client.connect();
+    // declare 'db'
+    const db = client.db(dbName);
+
+    // const collections = await db.listCollections().toArray();
+    // const collectionExists = collections.some(c => c.name === "companies");
+
+    const OrdersArray = await db.collection("Orders").find().toArray();
+
+    if (OrdersArray.length > 0) {
+      return res.json({
+        companies: OrdersArray,
+      });
+    } else
+      res
+        .status(404)
+        .json({ status: 404, message: "There are no Orders available" });
+  } catch (err) {
+    res.status(500).json({ status: 500, message: err.message });
+  } finally {
+    client.close();
+  }
+};
 
 /**********************************************************/
 /*  getSingleProduct:
@@ -581,6 +613,177 @@ const updateItemStock = async (req, res) => {
   }
 };
 
+const checkOut = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const dbName = "ecommerce";
+  const body = req.body;
+
+  // supposed the posting method wil have a req.body with this format: {
+  // checkoutItems: [
+  //   {"category": "Entertainment"
+  // id: "6875",
+  // name: "Monoprice 110161 MHD Action Camera Helmet Mount",
+  // price: "13.39",
+  // qty: 1},
+  //   {"category": "Entertainment",
+  // id: "6875",
+  // name: "Monoprice 110161 MHD Action Camera Helmet Mount",
+  // price: "13.39",
+  // qty: 1}],
+  // 	"firstName": "Antonio",
+  // 	"lastName": "Free",
+  // 	"email": "Antonio@bFree.com"
+  // 	"address": "134 IO street "
+  // }
+  if (
+    !body.checkoutItems ||
+    !body.firstName ||
+    !body.lastName ||
+    !body.email ||
+    !body.address
+  ) {
+    return res.status(400).json({
+      status: 400,
+      data: {},
+      message: "Sorry. Please provide all the required information ",
+    });
+  }
+  if (!body.email.includes("@")) {
+    return res.status(400).json({
+      status: 400,
+      data: {},
+      message:
+        "Sorry. Please provide the correct form of email address(including @)",
+    });
+  }
+
+  // console.log("line 667", newOrder);
+  // Number.parseInt(body.qty)
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    let newOrder = {
+      _id: uuidv4(),
+      itemsFinished: [],
+      firstName: body.firstName,
+      lastName: body.lastName,
+      email: body.email,
+      address: body.address,
+    };
+
+    // use map method from here
+    const checkEachItem = body.checkoutItems.map(async (item) => {
+      const idToNumber = Number.parseInt(item.id);
+      const quantityToNumber = Number.parseInt(item.qty);
+      // transform string in req.body to number because the DB has number type
+
+      const findItem = await db
+        .collection("items")
+        .findOne({ _id: idToNumber });
+      //
+      if (findItem) {
+        if (findItem.numInStock < 1) {
+          // check enough stock or not
+          return res.status(400).json({
+            status: 400,
+            message: ` Sorry, we ran  out of stock for the product with id: ${item.id} /name: ${item.name} at this time`,
+          });
+        }
+        if (findItem.numInStock < quantityToNumber) {
+          // check enough stock or not
+          return res.status(400).json({
+            status: 400,
+            message: ` Sorry, we dont have enough stock for the product with id: ${item.id} /name: ${item.name} at this time`,
+          });
+        } else {
+          try {
+            const updateStockNumber = await db.collection("items").updateOne(
+              {
+                _id: idToNumber,
+              },
+              { $set: { numInStock: findItem.numInStock - quantityToNumber } }
+            );
+            console.log("update here", updateStockNumber);
+            if (updateStockNumber.modifiedCount > 0) {
+              //  this is to make sure the stock number was updated successfully
+
+              newOrder.itemsFinished.push(item);
+
+              console.log(
+                "newOrder.itemsFinished inside forEach",
+                newOrder.itemsFinished.length
+              );
+              // passed validation check out 1 type of item will be recorded
+              return res.status(200).json({
+                status: 200,
+                message: ` Congrate, product with id: ${item.id} /name: ${item.name} was successfully checked out`,
+              });
+            } else {
+              return res.status(500).json({
+                status: 500,
+                message: ` Sorry, product with id: ${item.id} /name: ${item.name} was NOT successfully checked out for some reason`,
+              });
+            }
+          } catch (err) {
+            console.log(
+              "err from adjusting stock number/Checkout endPoint",
+              err
+            );
+          }
+        }
+      } else {
+        return res.status(404).json({
+          status: 404,
+          message: `The product with id: ${item.id} does not exist`,
+        });
+      }
+    });
+
+    Promise.all(checkEachItem).then(() => {
+      console.log(
+        "newOrder.itemsFinished outside foreach",
+        newOrder.itemsFinished
+      );
+      const pushCheckedOrderToOrderCollection = async () => {
+        // to push the new order (after approved) to Order collection for tracking purpose
+        if (newOrder.itemsFinished.length > 0) {
+          try {
+            const insertNewOrder = await db
+              .collection("Orders")
+              .insertOne(newOrder);
+            console.log("newOrder outside foreach", newOrder);
+            if (insertNewOrder.modifiedCount > 0) {
+              //  this is to make sure the <Order> collection was updated successfully
+
+              return res.status(200).json({
+                status: 200,
+                message: ` The order with id: ${newOrder._id} was successfully added`,
+              });
+            } else {
+              return res.status(500).json({
+                status: 500,
+                message: ` Sorry, The order with id: ${newOrder._id} was NOT successfully added for some reason`,
+              });
+            }
+          } catch (err) {
+            console.log();
+            "err from add new Order to <order> collection", err;
+          }
+        }
+      };
+      pushCheckedOrderToOrderCollection();
+    });
+  } catch (err) {
+    //
+    throw err;
+  } finally {
+    //
+    setTimeout(() => {
+      client.close();
+    }, 1500);
+  }
+};
+
 module.exports = {
   getItems,
   getCompanies,
@@ -594,4 +797,6 @@ module.exports = {
   addCustomer,
   updateItem,
   updateItemStock,
+  checkOut,
+  getOrders,
 };
