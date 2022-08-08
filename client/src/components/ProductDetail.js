@@ -25,14 +25,8 @@ const ProductDetail = () => {
   // console.log("data", singleProduct);
 
   const addToCart = () => {
-    //const newItem = {id, qty: 1};
-
-    const {imageSrc, name, category, price} = singleProduct;
     const qty = Number.parseInt(qtyRef.current.value);
-    const numPrice = Number.parseFloat(price.slice(1)).toFixed(2);
-
-    const newItem = {id, src: imageSrc, qty, name, category, price: numPrice}; //JSON.stringify
-    console.log(`newItem.src = `, newItem.src);
+    const newItem = {id, qty};
     
     //check if the product is already in the list
     const alreadyInCart = cart.some(cartItem => cartItem.id === id);
@@ -58,7 +52,7 @@ const ProductDetail = () => {
   return (
     <>
       <PageContainer>
-        <img src={singleProduct.imageSrc} />
+        <img src={singleProduct.imageSrc} alt="Item Image"/>
         <ProductInformation>
           <ProductName>{singleProduct.name}</ProductName>
           <ProductCategory>{singleProduct.category}</ProductCategory>

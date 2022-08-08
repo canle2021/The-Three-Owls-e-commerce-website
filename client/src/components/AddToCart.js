@@ -1,6 +1,7 @@
-import React, {useEffect, useState, useContext} from "react";
-import styled from "styled-components";
+import React, {useEffect, useState, useContext, useRef} from "react";
+import styled, {keyframes} from "styled-components";
 import { CartContext } from "./CartContext";
+import {FiLoader} from "react-icons/fi";
 
 import CartItem from "./CartItem";
 
@@ -8,35 +9,97 @@ import CartItem from "./CartItem";
 const AddToCart = () => {
   const {cart, setCart} = useContext(CartContext);
   const [cartTotal, setCartTotal] = useState(0);
-  console.log(`cart = `, cart);
+  const [loading, setLoading] = useState();
+  const [cartObjectsArray, setCartObjectsArray] = useState([]);
+  const cartItemsRef = useRef();
+
+  const calculateCartTotal = (cartObjectsArray) => {
+    const total =  cartObjectsArray.reduce((previousTotal, currentValue, index, arr) => {
+      return previousTotal + (arr[index].qty * arr[index].price);
+    }, 0).toFixed(2);
+    return total;
+  }
 
 
   useEffect(() => {
-    setCartTotal(cart.reduce((previousTotal, currentTotal, index, arr) => {
-      console.log(`arr[index].price = `, arr[index].price);
-      return previousTotal + arr[index].qty * Number.parseFloat(arr[index].price);
-    }, 0));
+    let promises = [];
+    //cartItemsRef.current.innerHTML = "";
+
+    setLoading(true);
+    let cartArray = [];
+    cart.forEach( cartItem => {
+      promises.push (
+        fetch(`get-item/${cartItem.id}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setCartObjectsArray([...cartObjectsArray, {...data.data, price: parseFloat(data.data.price.slice(1)).toFixed(2), qty: cartItem.qty}]);
+          cartArray.push({...data.data, price: parseFloat(data.data.price.slice(1)).toFixed(2), qty: cartItem.qty});
+
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
+      );
+    });
+
+    Promise.all(promises).then(() => {
+      setCartObjectsArray(cartArray);
+      setCartTotal(()=>calculateCartTotal(cartArray));
+    });
+  
+
+
+    setLoading(false);
+     
   }, [cart]);
 
   return (
-    <>
-      <PageContainer>
-        <PageTitle>Cart Page</PageTitle>
-        <CartItems>
-          {
-            cart.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)
-          }
-        </CartItems>
-        <CartTotal>
-           <TotalAmount> {`Total Order Amount: $${parseFloat(cartTotal).toFixed(2)}`}</TotalAmount>
-        </CartTotal>
-        <CheckoutSection>
-           <CheckoutButton>Checkout</CheckoutButton>
-        </CheckoutSection>
-      </PageContainer>
-    </>
+    (!loading) ?
+      <>
+        <PageContainer>
+          <PageTitle>Cart Page</PageTitle>
+          <CartItems ref={cartItemsRef}>
+            {
+              cartObjectsArray.map(cartObject => <CartItem key={cartObject._id} cartItem={cartObject}/>)
+            }
+          </CartItems>
+          <CartTotal>
+            <TotalAmount> {`Total Order Amount: $${cartTotal}`}</TotalAmount>
+          </CartTotal>
+          <CheckoutSection>
+            <CheckoutButton>Checkout</CheckoutButton>
+          </CheckoutSection>
+        </PageContainer>
+      </>
+      :
+      <LoaderDiv>
+        <FiLoader/>
+      </LoaderDiv>
   );
 };
+
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const LoaderDiv = styled.div `
+  font-size: 50px;
+  color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  animation: ${rotate} infinite 4s linear;
+`;
 
 const PageContainer = styled.div`
 width: 1200px;
