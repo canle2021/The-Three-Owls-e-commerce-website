@@ -9,7 +9,7 @@ import ProductDetail from "./ProductDetail";
 import AddToCart from "./AddToCart";
 import Footer from "./Footer";
 import logo from "../components/asset/logo.png";
-
+import Confirmation from "./Confirmation";
 function App() {
   return (
     <Router>
@@ -21,6 +21,7 @@ function App() {
           <Route path="/collection/:category" element={<CollectionPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<AddToCart />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
         <Footer />
       </SizeContainer>
