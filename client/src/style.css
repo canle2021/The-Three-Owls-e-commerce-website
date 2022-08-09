@@ -56,3 +56,13 @@ body{
 	line-height: 25px;
 	font-weight: 400;
 }
+
+
+a{
+	text-decoration: none;
+}
+
+li{
+	text-decoration: none;
+	color: white;
+}
