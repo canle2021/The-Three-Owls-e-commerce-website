@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { CurrentUserContext } from "./CurrentUserContext";
+import ProductCard from "./ProductCard";
 
 const CollectionPage = () => {
   const { singleCategory, setSingleCategory } = useContext(CurrentUserContext);
@@ -27,12 +28,18 @@ const CollectionPage = () => {
         {singleCategory.map((element, index) => {
           return (
             <Link to={`/product/${element._id}`} key={index}>
-              <ProductDiv>
+              {/* <ProductDiv>
                 <img src={element.imageSrc}></img>
                 <ProductInforDiv>
                   <p>{element.name}</p>
                 </ProductInforDiv>
-              </ProductDiv>
+              </ProductDiv> */}
+
+              <ProductCard
+                imageSrc={element.imageSrc}
+                pName={element.name}
+                pPrice={element.price}
+              />
             </Link>
           );
         })}
@@ -58,14 +65,15 @@ const ProductDiv = styled.div`
 `;
 const ProductInforDiv = styled.div``;
 const PageContainer = styled.div`
-  display: grid;
+  /* display: grid; */
   /* grid-template-rows: repeat(10, 30px); */
-  grid-template-columns: 150px 150px 150px 150px 150px;
-  gap: 12px 10px;
+  /* grid-template-columns: 150px 150px 150px 150px 150px; */
+  flex-wrap: wrap;
+  gap: 40px 40px;
   /* flex-direction: column; */
-  width: 1200px;
-  /* display: flex; */
-  justify-content: space-between;
+  width: 1280px;
+  display: flex;
+  /* justify-content: space-between; */
 `;
 
 export default CollectionPage;

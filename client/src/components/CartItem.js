@@ -1,52 +1,52 @@
-import React, {useContext, useState, useRef} from "react";
+import React, { useContext, useState, useRef } from "react";
 import styled from "styled-components";
-import {FiLoader} from "react-icons/fi";
+import { FiLoader } from "react-icons/fi";
 import { CartContext } from "./CartContext";
 import { CurrentUserContext } from "./CurrentUserContext";
 
-
-const CartItem = ({cartItem}) => {
-
+const CartItem = ({ cartItem }) => {
   const cartItemRef = useRef();
-  const {cart, setCart} = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
   const [loading, setLoading] = useState();
   const [cartLength, setCartLength] = useState(0);
 
   const deleteItem = () => {
     cartItemRef.current.style.display = "none";
-    const newCart = cart.filter(item => {
-      console.log(`${item.id} != ${cartItem._id}`,item.id != cartItem._id);
-      return (item.id != cartItem._id);
+    const newCart = cart.filter((item) => {
+      console.log(`${item.id} != ${cartItem._id}`, item.id != cartItem._id);
+      return item.id != cartItem._id;
     });
 
     setCart(newCart);
-  }
+  };
 
   return (
     <CartItemContainer ref={cartItemRef}>
-      <ItemImage src={cartItem.imageSrc} alt="image"/>
+      <ItemImage src={cartItem.imageSrc} alt="image" />
       <ItemDetails>
-          <ItemDescription>{cartItem.name}</ItemDescription>
-          <QuantitySection>
-            <ItemQuantity>{`Qty Ordered: ${cartItem.qty}`}</ItemQuantity>
-            <ItemsInStock>{`Qty In Stock: ${cartItem.numInStock}`}</ItemsInStock>
-          </QuantitySection>
-          <CategoryInformation>
-            <Category>{`Category: ${cartItem.category}`} </Category>
-            <BodyLocation>{`Body Part: ${cartItem.body_location}`} </BodyLocation>
-          </CategoryInformation>
-          <ItemUnitPrice>{`Unit Price: $${cartItem.price}`}</ItemUnitPrice>
+        <ItemDescription>{cartItem.name}</ItemDescription>
+        <QuantitySection>
+          <ItemQuantity>{`Qty Ordered: ${cartItem.qty}`}</ItemQuantity>
+          <ItemsInStock>{`Qty In Stock: ${cartItem.numInStock}`}</ItemsInStock>
+        </QuantitySection>
+        <CategoryInformation>
+          <Category>{`Category: ${cartItem.category}`} </Category>
+          <BodyLocation>{`Body Part: ${cartItem.body_location}`} </BodyLocation>
+        </CategoryInformation>
+        <ItemUnitPrice>{`Unit Price: $${cartItem.price}`}</ItemUnitPrice>
       </ItemDetails>
       <ItemTotal>
-          <ItemTotalTitle>Total</ItemTotalTitle>
-          <ItemTotalPrice>{`$${parseFloat(cartItem.qty * cartItem.price).toFixed(2)}`}</ItemTotalPrice>
+        <ItemTotalTitle>Total</ItemTotalTitle>
+        <ItemTotalPrice>{`$${parseFloat(cartItem.qty * cartItem.price).toFixed(
+          2
+        )}`}</ItemTotalPrice>
       </ItemTotal>
       <DeleteItem>
-          <DeleteItemButton onClick={deleteItem}>X</DeleteItemButton>
+        <DeleteItemButton onClick={deleteItem}>X</DeleteItemButton>
       </DeleteItem>
     </CartItemContainer>
   );
-}
+};
 
 const CartItemContainer = styled.div`
   width: 100%;
@@ -60,7 +60,7 @@ const CartItemContainer = styled.div`
 
 const ItemImage = styled.img`
   width: 8%;
-  height:auto;
+  height: auto;
 `;
 
 const ItemDetails = styled.div`
@@ -80,9 +80,7 @@ const ItemTotalTitle = styled.div`
   font-weight: bold;
 `;
 
-const ItemTotalPrice = styled.div`
-
-`;
+const ItemTotalPrice = styled.div``;
 
 const DeleteItem = styled.div`
   display: flex;
@@ -113,12 +111,12 @@ const QuantitySection = styled.div`
 `;
 
 const ItemQuantity = styled.div`
-    width: 180px;
+  width: 180px;
 `;
 
 const ItemsInStock = styled.div`
-    color: grey;
-    margin: 0px 20px;
+  color: grey;
+  margin: 0px 20px;
 `;
 
 const ItemUnitPrice = styled.h1``;
@@ -129,12 +127,11 @@ const CategoryInformation = styled.div`
 `;
 
 const Category = styled.h1`
-    width: 180px;
+  width: 180px;
 `;
 
 const BodyLocation = styled.h1`
-    margin: 0px 20px;
+  margin: 0px 20px;
 `;
 
 export default CartItem;
-

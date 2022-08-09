@@ -1,23 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const ProductCard = () => {
-  const productDec = {
-    name: "Coleman G7HD-SWIM POV 1080p 5 Megapixel Goggles Camcorder ELBG7HDSWIM",
-    price: "253$",
-  };
-
-  const productTitle = productDec.name;
+const ProductCard = ({ pName, imageSrc, pPrice }) => {
   return (
     <BoxContainer>
-      <ProductImg />
+      <ProductImg imageSrc={imageSrc} />
       <ProductInfo>
         <ProductName>
-          {productTitle.length >= 50
-            ? productTitle.slice(0, 50) + "..."
-            : productTitle}
+          {pName && pName.length >= 50 ? pName.slice(0, 50) + "..." : pName}
         </ProductName>
-        <ProductPrice>{productDec.price}</ProductPrice>
+        <ProductPrice>{pPrice}</ProductPrice>
         <AddToCart>Add to cart</AddToCart>
       </ProductInfo>
     </BoxContainer>
@@ -33,6 +25,7 @@ const BoxContainer = styled.div`
   border-radius: 10px;
   overflow: hidden;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: white;
   :hover& {
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.5) 0px 4px 16px 0px;
@@ -71,7 +64,9 @@ const ProductPrice = styled.p`
 const ProductImg = styled.div`
   width: 100%;
   height: 250px;
-  background-color: #393636;
+  background-image: url(${(props) => props.imageSrc});
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const AddToCart = styled.button`
