@@ -633,7 +633,7 @@ const checkOut = async (req, res) => {
   // 	"firstName": "Antonio",
   // 	"lastName": "Free",
   // 	"email": "Antonio@bFree.com"
-  // 	"address": "134 IO street "
+  // 	"address": "134 IO street ... "
   // }
   if (
     !body.checkoutItems ||
@@ -770,17 +770,15 @@ const checkOut = async (req, res) => {
             "err from add new Order to <order> collection", err;
           }
         }
+        client.close();
       };
+
       pushCheckedOrderToOrderCollection();
     });
   } catch (err) {
     //
+    client.close();
     throw err;
-  } finally {
-    //
-    setTimeout(() => {
-      client.close();
-    }, 1500);
   }
 };
 
