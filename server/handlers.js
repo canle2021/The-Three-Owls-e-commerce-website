@@ -776,9 +776,8 @@ const checkOut = async (req, res) => {
       pushCheckedOrderToOrderCollection();
     });
   } catch (err) {
+    console.log("err from checkOut endpoint", err);
     //
-    client.close();
-    throw err;
   }
 };
 
