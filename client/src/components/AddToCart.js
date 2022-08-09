@@ -23,7 +23,6 @@ const AddToCart = () => {
 
   useEffect(() => {
     let promises = [];
-    //cartItemsRef.current.innerHTML = "";
 
     setLoading(true);
     let cartArray = [];
@@ -34,9 +33,7 @@ const AddToCart = () => {
           return res.json();
         })
         .then((data) => {
-          setCartObjectsArray([...cartObjectsArray, {...data.data, price: parseFloat(data.data.price.slice(1)).toFixed(2), qty: cartItem.qty}]);
           cartArray.push({...data.data, price: parseFloat(data.data.price.slice(1)).toFixed(2), qty: cartItem.qty});
-
         })
         .catch((err) => {
           console.log("err", err);
@@ -47,12 +44,9 @@ const AddToCart = () => {
     Promise.all(promises).then(() => {
       setCartObjectsArray(cartArray);
       setCartTotal(()=>calculateCartTotal(cartArray));
+      setLoading(false);
     });
   
-
-
-    setLoading(false);
-     
   }, [cart]);
 
   return (

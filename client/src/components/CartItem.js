@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState, useRef} from "react";
-import styled, {keyframes} from "styled-components";
+import React, {useContext, useState, useRef} from "react";
+import styled from "styled-components";
 import {FiLoader} from "react-icons/fi";
 import { CartContext } from "./CartContext";
 import { CurrentUserContext } from "./CurrentUserContext";
@@ -14,75 +14,39 @@ const CartItem = ({cartItem}) => {
 
   const deleteItem = () => {
     cartItemRef.current.style.display = "none";
-    // console.log(`cartlength...before = `, cart.length);
     const newCart = cart.filter(item => {
       console.log(`${item.id} != ${cartItem._id}`,item.id != cartItem._id);
       return (item.id != cartItem._id);
     });
 
-    // console.log(`newCart = `, newCart);
     setCart(newCart);
-    // console.log(`cartlength...after = `, cart.length);
   }
-
-  useEffect (()=> {
-
-    setLoading(true);
-    setCartLength(cart.length);
-    setLoading(false);
-
-  }, [cart]);
 
   return (
-    (!loading)?
-      <CartItemContainer ref={cartItemRef}>
-        <ItemImage src={cartItem.imageSrc} alt="image"/>
-        <ItemDetails>
-            <ItemDescription>{cartItem.name}</ItemDescription>
-            <QuantitySection>
-              <ItemQuantity>{`Qty Ordered: ${cartItem.qty}`}</ItemQuantity>
-              <ItemsInStock>{`Qty In Stock: ${cartItem.numInStock}`}</ItemsInStock>
-            </QuantitySection>
-            <CategoryInformation>
-              <Category>{`Category: ${cartItem.category}`} </Category>
-              <BodyLocation>{`Body Part: ${cartItem.body_location}`} </BodyLocation>
-            </CategoryInformation>
-            <ItemUnitPrice>{`Unit Price: $${cartItem.price}`}</ItemUnitPrice>
-        </ItemDetails>
-        <ItemTotal>
-            <ItemTotalTitle>Total</ItemTotalTitle>
-            <ItemTotalPrice>{`$${parseFloat(cartItem.qty * cartItem.price).toFixed(2)}`}</ItemTotalPrice>
-        </ItemTotal>
-        <DeleteItem>
-            <DeleteItemButton onClick={deleteItem}>X</DeleteItemButton>
-        </DeleteItem>
-      </CartItemContainer>
-      :
-      <LoaderDiv>
-        <FiLoader/>
-      </LoaderDiv>
+    <CartItemContainer ref={cartItemRef}>
+      <ItemImage src={cartItem.imageSrc} alt="image"/>
+      <ItemDetails>
+          <ItemDescription>{cartItem.name}</ItemDescription>
+          <QuantitySection>
+            <ItemQuantity>{`Qty Ordered: ${cartItem.qty}`}</ItemQuantity>
+            <ItemsInStock>{`Qty In Stock: ${cartItem.numInStock}`}</ItemsInStock>
+          </QuantitySection>
+          <CategoryInformation>
+            <Category>{`Category: ${cartItem.category}`} </Category>
+            <BodyLocation>{`Body Part: ${cartItem.body_location}`} </BodyLocation>
+          </CategoryInformation>
+          <ItemUnitPrice>{`Unit Price: $${cartItem.price}`}</ItemUnitPrice>
+      </ItemDetails>
+      <ItemTotal>
+          <ItemTotalTitle>Total</ItemTotalTitle>
+          <ItemTotalPrice>{`$${parseFloat(cartItem.qty * cartItem.price).toFixed(2)}`}</ItemTotalPrice>
+      </ItemTotal>
+      <DeleteItem>
+          <DeleteItemButton onClick={deleteItem}>X</DeleteItemButton>
+      </DeleteItem>
+    </CartItemContainer>
   );
 }
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const LoaderDiv = styled.div `
-  font-size: 50px;
-  color: grey;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 150px;
-  animation: ${rotate} infinite 4s linear;
-`;
 
 const CartItemContainer = styled.div`
   width: 100%;
