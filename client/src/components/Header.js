@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
+import { CartContext } from "./CartContext";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +9,9 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+
 const Header = ({ logo }) => {
+  const {cart} = useContext(CartContext);
   const navigate = useNavigate();
   const allCategoriesButton = (e) => {
     navigate("/");
@@ -21,6 +24,10 @@ const Header = ({ logo }) => {
     navigate("/cart");
   };
 
+  const getCartItemsCount = () => {
+    return cart.reduce((previousCount, currentItem) => previousCount + currentItem.qty, 0);
+  }
+
   return (
     <CompContainer>
       <TopBar>
@@ -29,8 +36,8 @@ const Header = ({ logo }) => {
       <NavMiddleBox>
         <LogoImg onClick={allCategoriesButton} src={logo} />
         <CartButton onClick={accessCart}>
-          <AiOutlineShoppingCart style={{ fontSize: "35px" }} />
-          <CartButtonText>Cart</CartButtonText>
+          <AiOutlineShoppingCart style={{ fontSize: "35px" }}/>
+          <CartButtonText>{`Cart (${getCartItemsCount()})`}</CartButtonText>
         </CartButton>
       </NavMiddleBox>
       <NavMenu>
@@ -108,7 +115,7 @@ const LogoImg = styled.img`
 `;
 
 const CartButton = styled.div`
-  width: 50px;
+  width: 70px;
   height: 50px;
   display: flex;
   flex-direction: column;
@@ -126,4 +133,12 @@ const CartButton = styled.div`
 const CartButtonText = styled.div`
   font-weight: 500;
 `;
+
+const CartItemsCount = styled.div`
+  font-size: 8px;
+  height: 8px;
+  display: flex;
+  justify-content: center;
+  background-color: red;
+`
 export default Header;
