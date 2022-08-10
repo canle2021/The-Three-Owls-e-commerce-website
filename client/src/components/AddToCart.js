@@ -70,7 +70,7 @@ const AddToCart = () => {
             <CheckoutButton>Checkout</CheckoutButton>
           </CheckoutSection>
         </PageContainer>
-        <CustomerForm />
+        <CustomerForm cartObjectsArray={cartObjectsArray} />
       </CartPageDiv>
     </>
   ) : (
