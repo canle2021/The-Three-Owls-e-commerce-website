@@ -1,17 +1,11 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { CurrentUserContext } from "./CurrentUserContext";
 import { CartContext } from "./CartContext";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 const Header = ({ logo }) => {
-  const {cart} = useContext(CartContext);
+  const { cart } = useContext(CartContext);
   const navigate = useNavigate();
   const allCategoriesButton = (e) => {
     navigate("/");
@@ -24,9 +18,19 @@ const Header = ({ logo }) => {
     navigate("/cart");
   };
 
+  const errorPage = () => {
+    navigate("/error");
+  };
+  const constructionPage = () => {
+    navigate("/construction");
+  };
+
   const getCartItemsCount = () => {
-    return cart.reduce((previousCount, currentItem) => previousCount + currentItem.qty, 0);
-  }
+    return cart.reduce(
+      (previousCount, currentItem) => previousCount + currentItem.qty,
+      0
+    );
+  };
 
   return (
     <CompContainer>
@@ -36,16 +40,16 @@ const Header = ({ logo }) => {
       <NavMiddleBox>
         <LogoImg onClick={allCategoriesButton} src={logo} />
         <CartButton onClick={accessCart}>
-          <AiOutlineShoppingCart style={{ fontSize: "35px" }}/>
+          <AiOutlineShoppingCart style={{ fontSize: "35px" }} />
           <CartButtonText>{`Cart (${getCartItemsCount()})`}</CartButtonText>
         </CartButton>
       </NavMiddleBox>
       <NavMenu>
         <NavLink onClick={allCategoriesButton}>Home</NavLink>
         <NavLink onClick={shopLink}>Shop</NavLink>
-        <NavLink>Sale</NavLink>
-        <NavLink>Contact us</NavLink>
-        <NavLink>About us</NavLink>
+        <NavLink onClick={constructionPage}>Sale</NavLink>
+        <NavLink onClick={errorPage}>Contact us</NavLink>
+        <NavLink onClick={constructionPage}>About us</NavLink>
       </NavMenu>
     </CompContainer>
   );
@@ -140,5 +144,5 @@ const CartItemsCount = styled.div`
   display: flex;
   justify-content: center;
   background-color: red;
-`
+`;
 export default Header;

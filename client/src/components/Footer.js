@@ -1,18 +1,21 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
-import { logo } from "./asset/logo.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const constructionPage = () => {
+    navigate("/construction");
+  };
   const { allCateogries } = useContext(CurrentUserContext);
-  console.log(allCateogries);
   return (
     <CompContainer>
       <CompBackground>
         <BoxContainer>
           <FirstSection allCateogries={allCateogries} />
-          <SecondSection />
+          <SecondSection constructionPage={constructionPage} />
           <ThirdSection />
         </BoxContainer>
         <BottomBar />
@@ -39,16 +42,18 @@ const FirstSection = ({ allCateogries }) => {
   );
 };
 
-const SecondSection = () => {
+const SecondSection = ({ constructionPage }) => {
   return (
     <ContentContainer>
       <SectionTitle>Information</SectionTitle>
       <ul>
-        <LinkSelect>About us</LinkSelect>
-        <LinkSelect>Contact</LinkSelect>
-        <LinkSelect>Payment methods</LinkSelect>
-        <LinkSelect>Shipping & returns</LinkSelect>
-        <LinkSelect>General terms & conditions</LinkSelect>
+        <LinkSelect onClick={constructionPage}>About us</LinkSelect>
+        <LinkSelect onClick={constructionPage}>Contact</LinkSelect>
+        <LinkSelect onClick={constructionPage}>Payment methods</LinkSelect>
+        <LinkSelect onClick={constructionPage}>Shipping & returns</LinkSelect>
+        <LinkSelect onClick={constructionPage}>
+          General terms & conditions
+        </LinkSelect>
       </ul>
     </ContentContainer>
   );
