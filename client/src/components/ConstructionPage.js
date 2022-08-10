@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { MdHandyman } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { colors } from "@material-ui/core";
 
 const ConstructionPage = () => {
   const navigate = useNavigate();

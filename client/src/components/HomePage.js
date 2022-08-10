@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { CurrentUserContext } from "./CurrentUserContext";
-
 import ProductSection from "./ProductSection";
 import Slider from "./Slider";
 import FeaturedCategories from "./FeaturedCategories";
+import slider1 from "../components/asset/slider1.jpg";
 
 const HomePage = () => {
   return (
     <PageContainer>
-      <Slider />
+      <Slider slider1={slider1} />
       <SectionTitle>Top Categories</SectionTitle>
       <FeaturedCategories />
       <SectionTitle>Product Section</SectionTitle>
