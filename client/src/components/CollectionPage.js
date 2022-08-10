@@ -29,17 +29,19 @@ const CollectionPage = () => {
   console.log("title", category);
   return !loading ? (
     <>
-      <Head1>This is the {category} page</Head1>
+      <Head1>{category}</Head1>
       <PageContainer>
         {singleCategory.map((element, index) => {
           return (
-            <Link to={`/product/${element._id}`} key={index}>
-              <ProductCard
-                imageSrc={element.imageSrc}
-                pName={element.name}
-                pPrice={element.price}
-              />
-            </Link>
+            // <Link to={`/product/${element._id}`} key={index}>
+            <ProductCard
+              imageSrc={element.imageSrc}
+              pName={element.name}
+              pPrice={element.price}
+              pStock={element.numInStock}
+              pId={element._id}
+            />
+            // </Link>
           );
         })}
       </PageContainer>

@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
 import { Link } from "react-router-dom";
+import categoriesBackground from "../components/asset/categoriesBanner.jpg";
 
 const Catelog = () => {
   const { allCateogries } = useContext(CurrentUserContext);
@@ -18,8 +19,9 @@ const Catelog = () => {
             return (
               <Link to={linkToEachCategory}>
                 <BoxContainer>
-                  <CategoriesBox />
-                  <CategoriesBoxTitle>{categories}</CategoriesBoxTitle>
+                  <CategoriesBox categoriesBackground={categoriesBackground}>
+                    <CategoriesBoxTitle>{categories}</CategoriesBoxTitle>
+                  </CategoriesBox>
                 </BoxContainer>
               </Link>
             );
@@ -62,21 +64,27 @@ const CategoriesBox = styled.div`
   height: 280px;
   background-color: #d9d9d9;
   border-radius: 10px;
+  margin-bottom: 20px;
   :hover& {
     cursor: pointer;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 4px 8px 0px;
     transition: 0.3s ease-in;
   }
+  background-image: url(${(props) => props.categoriesBackground});
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CategoriesBoxTitle = styled.h3`
-  font-size: 20px;
-  color: black;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 800;
-  margin-bottom: 50px;
-  margin-top: 15px;
+  font-size: 25px;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
   text-align: center;
+  text-transform: uppercase;
 `;
 
 const SectionTitle = styled.h2`

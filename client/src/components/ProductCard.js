@@ -1,18 +1,30 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ pName, pPrice, imageSrc }) => {
+const ProductCard = ({ pName, pPrice, imageSrc, pStock, pId }) => {
+  const navigate = useNavigate();
+
+  const productDetail = () => {
+    navigate(`/product/${pId && pId}`);
+  };
   return (
     <BoxContainer>
-      <ProductImg imageSrc={imageSrc} />
+      <ProductImg onClick={productDetail} imageSrc={imageSrc} />
       <ProductInfo>
-        <ProductName>
+        <ProductName onClick={productDetail}>
           {pName && pName.length >= 50
             ? pName && pName.slice(0, 50) + "..."
             : pName && pName}
         </ProductName>
         <ProductPrice>{pPrice}</ProductPrice>
-        <AddToCart>Add to cart</AddToCart>
+        <ButtonContiner>
+          {pStock && pStock > 0 ? (
+            <AddToCart>Add to cart</AddToCart>
+          ) : (
+            <DisAddToCart>Out of stock</DisAddToCart>
+          )}
+        </ButtonContiner>
       </ProductInfo>
     </BoxContainer>
   );
@@ -91,6 +103,24 @@ const AddToCart = styled.button`
     background-color: #51038f;
     transition: 0.5s ease-in-out;
   }
+`;
+
+const DisAddToCart = styled.button`
+  width: 100%;
+  height: 70px;
+  background: gray;
+  border: none;
+  margin-bottom: 0px;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: white;
+  :hover& {
+    cursor: pointer;
+  }
+`;
+const ButtonContiner = styled.div`
+  width: 100%;
 `;
 
 export default ProductCard;

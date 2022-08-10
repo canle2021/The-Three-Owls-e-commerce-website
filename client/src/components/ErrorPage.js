@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { colors } from "@material-ui/core";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
