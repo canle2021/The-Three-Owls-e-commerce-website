@@ -12,6 +12,7 @@ import logo from "../components/asset/logo.png";
 import Confirmation from "./Confirmation";
 import ErrorPage from "./ErrorPage";
 import ConstructionPage from "./ConstructionPage";
+import Review from "./Review";
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<AddToCart />} />
           <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/review" element={<Review />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/construction" element={<ConstructionPage />} />
         </Routes>
