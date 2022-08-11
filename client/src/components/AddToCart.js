@@ -14,8 +14,12 @@ const AddToCart = () => {
   const cartItemsRef = useRef();
 
   const calculateCartTotal = (cartObjectsArray) => {
+ 
     const total =  cartObjectsArray.reduce((previousTotal, currentValue, index, arr) => {
-      return previousTotal + (parseInt(arr[index].qty) * parseFloat(arr[index].price).toFixed(2));
+      if (arr[index])
+        return previousTotal + (parseInt(arr[index].qty) * parseFloat(arr[index].price).toFixed(2));
+      else 
+        return previousTotal;
     }, 0).toFixed(2);
     return total;
   };
@@ -55,6 +59,7 @@ const AddToCart = () => {
   }, []);
 
   useEffect(()=> {
+    console.log(`cartObjectsArray = `, cartObjectsArray);
     const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
       const cartItem = cart.find(cartItem => parseInt(cartItem.id) === cartArrayObject._id);
        if(cartItem) {
@@ -79,7 +84,7 @@ const AddToCart = () => {
           <PageTitle>Cart Page</PageTitle>
           <CartItems ref={cartItemsRef}>
             {cartObjectsArray.map((cartObject) => (
-              <CartItem key={cartObject._id} cartItem={cartObject} />
+              cartObject && <CartItem key={cartObject._id} cartItem={cartObject} />
             ))}
           </CartItems>
           <CartTotal>
