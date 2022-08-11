@@ -46,34 +46,31 @@ const AddToCart = () => {
 
     Promise.all(promises).then(() => {
       setCartObjectsArray(cartArray);
-      // setCartTotal(()=>calculateCartTotal(cart)); //cartArray
-      setLoading(false);
     })
-    // .then(()=>{
-    //   setCartTotal(calculateCartTotal(cartObjectsArray))
-    // });
+    .then(()=>{
+      setCartTotal(calculateCartTotal(cartObjectsArray));
+    })
+    .then(()=>{setLoading(false)})
   
   }, []);
 
-    // useEffect(()=> {
-  //   setCartTotal(calculateCartTotal(cartObjectsArray))
-  // }, [cartObjectsArray]);
-
-  // useEffect(()=> {
-  //   console.log(`cart....... = `, cart);
-  //   const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
-  //     const cartItem = cart.find(cartItem => cartItem.id === cartArrayObject._id);
-  //      if(cartItem) {
-  //         cartArrayObject.qty = cartItem.qty;
-  //         return cartArrayObject;
-  //      }
-  //   });
-  //   console.log(`udpatedCartObjectsArray = `, updatedCartObjectsArray);
-  //   if (updatedCartObjectsArray) {
-  //     setCartObjectsArray(updatedCartObjectsArray);
-  //     setCartTotal(calculateCartTotal(updatedCartObjectsArray))
-  //   }
-  // }, [cart])
+  useEffect(()=> {
+    const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
+      const cartItem = cart.find(cartItem => parseInt(cartItem.id) === cartArrayObject._id);
+       if(cartItem) {
+          cartArrayObject.qty = cartItem.qty;
+          return cartArrayObject;
+       }
+    });
+    if (updatedCartObjectsArray) {
+      setCartObjectsArray(updatedCartObjectsArray);
+      setCartTotal(calculateCartTotal(updatedCartObjectsArray))
+    }
+    else {
+      setCartObjectsArray([]);
+      setCartTotal(0);
+    }
+  }, [cart])
 
   return !loading ? (
     <>
