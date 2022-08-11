@@ -14,11 +14,9 @@ const AddToCart = () => {
   const cartItemsRef = useRef();
 
   const calculateCartTotal = (cartObjectsArray) => {
-    const total = cartObjectsArray
-      .reduce((previousTotal, currentValue, index, arr) => {
-        return previousTotal + arr[index].qty * arr[index].price;
-      }, 0)
-      .toFixed(2);
+    const total =  cartObjectsArray.reduce((previousTotal, currentValue, index, arr) => {
+      return previousTotal + (parseInt(arr[index].qty) * parseFloat(arr[index].price).toFixed(2));
+    }, 0).toFixed(2);
     return total;
   };
 
@@ -48,10 +46,34 @@ const AddToCart = () => {
 
     Promise.all(promises).then(() => {
       setCartObjectsArray(cartArray);
-      setCartTotal(() => calculateCartTotal(cartArray));
+      // setCartTotal(()=>calculateCartTotal(cart)); //cartArray
       setLoading(false);
-    });
-  }, [cart]);
+    })
+    // .then(()=>{
+    //   setCartTotal(calculateCartTotal(cartObjectsArray))
+    // });
+  
+  }, []);
+
+    // useEffect(()=> {
+  //   setCartTotal(calculateCartTotal(cartObjectsArray))
+  // }, [cartObjectsArray]);
+
+  // useEffect(()=> {
+  //   console.log(`cart....... = `, cart);
+  //   const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
+  //     const cartItem = cart.find(cartItem => cartItem.id === cartArrayObject._id);
+  //      if(cartItem) {
+  //         cartArrayObject.qty = cartItem.qty;
+  //         return cartArrayObject;
+  //      }
+  //   });
+  //   console.log(`udpatedCartObjectsArray = `, updatedCartObjectsArray);
+  //   if (updatedCartObjectsArray) {
+  //     setCartObjectsArray(updatedCartObjectsArray);
+  //     setCartTotal(calculateCartTotal(updatedCartObjectsArray))
+  //   }
+  // }, [cart])
 
   return !loading ? (
     <>
