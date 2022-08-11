@@ -1,63 +1,67 @@
-import React, {useEffect, useState, useContext, useRef} from "react";
-import styled, {keyframes} from "styled-components";
+import React, { useEffect, useState, useContext, useRef } from "react";
+import styled, { keyframes } from "styled-components";
 import { CartContext } from "./CartContext";
-import {FiLoader} from "react-icons/fi";
+import { FiLoader } from "react-icons/fi";
 
 import CartItem from "./CartItem";
-
+import CustomerForm from "./CustomerFrom";
 
 const AddToCart = () => {
-  const {cart, setCart} = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
   const [cartTotal, setCartTotal] = useState(0);
   const [loading, setLoading] = useState();
   const [cartObjectsArray, setCartObjectsArray] = useState([]);
   const cartItemsRef = useRef();
 
   const calculateCartTotal = (cartObjectsArray) => {
-    const total =  cartObjectsArray.reduce((previousTotal, currentValue, index, arr) => {
-      return previousTotal + (arr[index].qty * arr[index].price);
-    }, 0).toFixed(2);
+    const total = cartObjectsArray
+      .reduce((previousTotal, currentValue, index, arr) => {
+        return previousTotal + arr[index].qty * arr[index].price;
+      }, 0)
+      .toFixed(2);
     return total;
-  }
-
+  };
 
   useEffect(() => {
     let promises = [];
 
     setLoading(true);
     let cartArray = [];
-    cart.forEach( cartItem => {
-      promises.push (
+    cart.forEach((cartItem) => {
+      promises.push(
         fetch(`get-item/${cartItem.id}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          cartArray.push({...data.data, price: parseFloat(data.data.price.slice(1)).toFixed(2), qty: cartItem.qty});
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            cartArray.push({
+              ...data.data,
+              price: parseFloat(data.data.price.slice(1)).toFixed(2),
+              qty: cartItem.qty,
+            });
+          })
+          .catch((err) => {
+            console.log("err", err);
+          })
       );
     });
 
     Promise.all(promises).then(() => {
       setCartObjectsArray(cartArray);
-      setCartTotal(()=>calculateCartTotal(cartArray));
+      setCartTotal(() => calculateCartTotal(cartArray));
       setLoading(false);
     });
-  
   }, [cart]);
 
-  return (
-    (!loading) ?
-      <>
+  return !loading ? (
+    <>
+      <CartPageDiv>
         <PageContainer>
           <PageTitle>Cart Page</PageTitle>
           <CartItems ref={cartItemsRef}>
-            {
-              cartObjectsArray.map(cartObject => <CartItem key={cartObject._id} cartItem={cartObject}/>)
-            }
+            {cartObjectsArray.map((cartObject) => (
+              <CartItem key={cartObject._id} cartItem={cartObject} />
+            ))}
           </CartItems>
           <CartTotal>
             <TotalAmount> {`Total Order Amount: $${cartTotal}`}</TotalAmount>
@@ -66,14 +70,15 @@ const AddToCart = () => {
             <CheckoutButton>Checkout</CheckoutButton>
           </CheckoutSection>
         </PageContainer>
-      </>
-      :
-      <LoaderDiv>
-        <FiLoader/>
-      </LoaderDiv>
+        <CustomerForm cartObjectsArray={cartObjectsArray} />
+      </CartPageDiv>
+    </>
+  ) : (
+    <LoaderDiv>
+      <FiLoader />
+    </LoaderDiv>
   );
 };
-
 
 const rotate = keyframes`
   from {
@@ -83,8 +88,12 @@ const rotate = keyframes`
     transform: rotate(360deg);
   }
 `;
+const CartPageDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-const LoaderDiv = styled.div `
+const LoaderDiv = styled.div`
   font-size: 50px;
   color: grey;
   display: flex;
@@ -96,9 +105,10 @@ const LoaderDiv = styled.div `
 `;
 
 const PageContainer = styled.div`
-width: 1200px;
-display: flex;
-flex-direction: column;
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
 `;
 
 const PageTitle = styled.div`
@@ -127,7 +137,7 @@ const TotalAmount = styled.div`
 `;
 
 const CheckoutSection = styled.div`
-  display:flex;
+  display: flex;
   justify-content: flex-end;
 `;
 
@@ -142,6 +152,5 @@ const CheckoutButton = styled.button`
   height: 50px;
   margin-top: 10px;
 `;
-
 
 export default AddToCart;

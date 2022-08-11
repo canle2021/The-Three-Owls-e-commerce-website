@@ -621,12 +621,12 @@ const checkOut = async (req, res) => {
   // supposed the posting method wil have a req.body with this format: {
   // checkoutItems: [
   //   {"category": "Entertainment"
-  // id: "6875",
+  // _id: "6875",
   // name: "Monoprice 110161 MHD Action Camera Helmet Mount",
   // price: "13.39",
   // qty: 1},
   //   {"category": "Entertainment",
-  // id: "6875",
+  // _id: "6875",
   // name: "Monoprice 110161 MHD Action Camera Helmet Mount",
   // price: "13.39",
   // qty: 1}],
@@ -673,7 +673,7 @@ const checkOut = async (req, res) => {
 
     // use map method from here
     const checkEachItem = body.checkoutItems.map(async (item) => {
-      const idToNumber = Number.parseInt(item.id);
+      const idToNumber = Number.parseInt(item._id);
       const quantityToNumber = Number.parseInt(item.qty);
       // transform string in req.body to number because the DB has number type
 
@@ -686,14 +686,14 @@ const checkOut = async (req, res) => {
           // check enough stock or not
           return res.status(400).json({
             status: 400,
-            message: ` Sorry, we ran  out of stock for the product with id: ${item.id} /name: ${item.name} at this time`,
+            message: ` Sorry, we ran  out of stock for the product with id: ${idToNumber} /name: ${item.name} at this time`,
           });
         }
         if (findItem.numInStock < quantityToNumber) {
           // check enough stock or not
           return res.status(400).json({
             status: 400,
-            message: ` Sorry, we dont have enough stock for the product with id: ${item.id} /name: ${item.name} at this time`,
+            message: ` Sorry, we dont have enough stock for the product with id: ${idToNumber} /name: ${item.name} at this time`,
           });
         } else {
           try {
@@ -716,12 +716,12 @@ const checkOut = async (req, res) => {
               // passed validation check out 1 type of item will be recorded
               return res.status(200).json({
                 status: 200,
-                message: ` Congrate, product with id: ${item.id} /name: ${item.name} was successfully checked out`,
+                message: ` Congrate, product with id: ${idToNumber} /name: ${item.name} was successfully checked out`,
               });
             } else {
               return res.status(500).json({
                 status: 500,
-                message: ` Sorry, product with id: ${item.id} /name: ${item.name} was NOT successfully checked out for some reason`,
+                message: ` Sorry, product with id: ${idToNumber} /name: ${item.name} was NOT successfully checked out for some reason`,
               });
             }
           } catch (err) {
@@ -734,7 +734,7 @@ const checkOut = async (req, res) => {
       } else {
         return res.status(404).json({
           status: 404,
-          message: `The product with id: ${item.id} does not exist`,
+          message: `The product with id: ${idToNumber} does not exist`,
         });
       }
     });
