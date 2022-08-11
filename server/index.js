@@ -18,6 +18,7 @@ const {
   updateItemStock,
   checkOut,
   getOrders,
+  addOrder,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -57,7 +58,8 @@ express()
   .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
-  .post("/add-order-and-checkout", checkOut)
+  .post("/verify-for-checkout", checkOut)
+  .post("/add-order", addOrder)
   .get("*", (req, res) => {
     res.status(404).json({
       status: 404,
