@@ -5,6 +5,7 @@ const CurrentUserProvider = ({ children }) => {
   const [allCateogries, setAllCategories] = useState();
   const [singleCategory, setSingleCategory] = useState([]);
   const [singleProduct, setSingleProduct] = useState("");
+
   // Get all cateory----------------------------
   useEffect(() => {
     fetch("/get-categories")

@@ -53,15 +53,21 @@ const CollectionPage = () => {
   );
 };
 const Head1 = styled.h1`
-  color: rebeccapurple;
-  font-size: 40px;
-  margin-bottom: 40px;
+  font-size: 35px;
+  color: black;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 100px;
+  margin-top: 20px;
+  text-align: center;
 `;
 const PageContainer = styled.div`
   flex-wrap: wrap;
   gap: 40px 40px;
   width: 1280px;
   display: flex;
+  justify-content: center;
 `;
 const rotate = keyframes`
   from {
