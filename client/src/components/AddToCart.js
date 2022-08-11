@@ -67,7 +67,7 @@ const AddToCart = () => {
             <TotalAmount> {`Total Order Amount: $${cartTotal}`}</TotalAmount>
           </CartTotal>
           <CheckoutSection>
-            <CheckoutButton>Checkout</CheckoutButton>
+            {/* <CheckoutButton>Checkout</CheckoutButton> */}
           </CheckoutSection>
         </PageContainer>
         <CustomerForm cartObjectsArray={cartObjectsArray} />

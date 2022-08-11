@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-
+import { CartContext } from "./CartContext";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 const CustomerForm = ({ cartObjectsArray }) => {
-  const [values, setValues] = useState();
-  const [inputs, setInputs] = useState();
-
+  const { orderId, setOrderId } = useContext(CartContext);
+  const [values, setValues] = useState(null);
+  const [inputs, setInputs] = useState(null);
+  const navagate = useNavigate();
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -14,15 +18,64 @@ const CustomerForm = ({ cartObjectsArray }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setInputs(values);
-    const objectToBePosted = {
-      checkoutItems: cartObjectsArray,
+    let objectToBePosted = {
+      _id: uuidv4(),
+      successfullyCheckoutItems: [],
+      failedCheckoutItems: [],
       ...values,
     };
+    setOrderId(objectToBePosted._id);
+    localStorage.setItem("orderId", `${objectToBePosted._id}`);
     console.log("form content", objectToBePosted);
+    const checkEachItem = cartObjectsArray.map(async (item) => {
+      const checkEachTime = {
+        ...item,
+        ...values,
+      };
+      //   console.log("checkEachTime", checkEachTime);
+      try {
+        const posting = await fetch(`/verify-for-checkout`, {
+          method: "POST",
+          body: JSON.stringify(checkEachTime),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        const converToJson = await posting.json();
+        // window.alert(`${converToJson.message}`);
+        console.log("posting", converToJson);
+        if (converToJson.status === 200) {
+          objectToBePosted.successfullyCheckoutItems.push(item);
+        } else {
+          objectToBePosted.failedCheckoutItems.push(item);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    Promise.all(checkEachItem).then(async () => {
+      try {
+        const posting = await fetch(`/add-order`, {
+          method: "POST",
+          body: JSON.stringify(objectToBePosted),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        const converToJson = await posting.json();
+
+        navagate(`/confirmation`);
+      } catch (err) {
+        console.log(err);
+      }
+    });
   };
   return (
     <FormDiv>
-      This is for the customer's information form
+      CUSTOMER'S INFORMATION
       <Form onSubmit={handleSubmit}>
         <Input
           placeholder="First Name"
@@ -52,19 +105,27 @@ const CustomerForm = ({ cartObjectsArray }) => {
 
         <SubmitButton
           type="submit"
-          value="Confirm"
+          value="Check out!"
+          //   disabled={!clickedSeatYet}
           name="confirmButton"
+          //   className={!clickedSeatYet ? "disabled" : ""}
         ></SubmitButton>
       </Form>
     </FormDiv>
   );
 };
 const SubmitButton = styled.input`
-  font-family: var(--font-heading);
-  background-color: var(--color-alabama-crimson);
-  color: black;
   cursor: pointer;
-  font-family: "Permanent Marker", Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: blue;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
+  font-family: var("Permanent Marker", Arial, Helvetica, sans-serif);
   &.disabled {
     opacity: 0.4;
     cursor: not-allowed;
