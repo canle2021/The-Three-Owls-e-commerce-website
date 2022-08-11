@@ -20,7 +20,7 @@ const ProductCard = ({ pName, pPrice, imageSrc, pStock, pId }) => {
         <ProductPrice>{pPrice}</ProductPrice>
         <ButtonContiner>
           {pStock && pStock > 0 ? (
-            <AddToCart>Add to cart</AddToCart>
+            <AddToCart onClick={productDetail}>In stock</AddToCart>
           ) : (
             <DisAddToCart>Out of stock</DisAddToCart>
           )}
@@ -86,7 +86,6 @@ const ProductImg = styled.div`
 const AddToCart = styled.button`
   width: 100%;
   height: 70px;
-  background: rgb(121, 0, 217);
   background: linear-gradient(
     90deg,
     rgba(121, 0, 217, 1) 0%,

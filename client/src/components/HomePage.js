@@ -11,7 +11,7 @@ const HomePage = () => {
       <Slider slider1={slider1} />
       <SectionTitle>Top Categories</SectionTitle>
       <FeaturedCategories />
-      <SectionTitle>Product Section</SectionTitle>
+      <SectionTitle>Latest products!</SectionTitle>
       <ProductSection />
     </PageContainer>
   );
