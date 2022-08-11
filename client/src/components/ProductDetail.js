@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { CurrentUserContext } from "./CurrentUserContext";
 import { CartContext } from "./CartContext";
 import {FiLoader} from "react-icons/fi";
+import QuantitySelector from "./QuantitySelector";
+
 
 const ProductDetail = () => {
   const { singleProduct, setSingleProduct } = useContext(CurrentUserContext);
@@ -11,6 +13,8 @@ const ProductDetail = () => {
   const { id } = useParams();
   const qtyRef = useRef();
   const [loading, setLoading] = useState();
+  const [qty, setQty] = useState(1);
+
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +34,6 @@ const ProductDetail = () => {
   // console.log("data", singleProduct);
 
   const addToCart = () => {
-    const qty = Number.parseInt(qtyRef.current.value);
     const newItem = {id, qty};
     
     //check if the product is already in the list
@@ -63,8 +66,10 @@ const ProductDetail = () => {
             <ProductName>{singleProduct.name}</ProductName>
             <ProductCategory>{singleProduct.category}</ProductCategory>
             <ProductPrice>{singleProduct.price}</ProductPrice>
-            <input ref={qtyRef} type="text" style={{width:"40px", marginRight: "10px"}} />
-            <button onClick={addToCart}>Add To Cart</button>
+            <ProductQty>
+              <QuantitySelector qty={qty} setQty={setQty} inStock={singleProduct.numInStock} showStock={true}/>
+            </ProductQty>
+            <AddToCartButton disabled={!singleProduct.numInStock} onClick={addToCart}>Add To Cart</AddToCartButton>
           </ProductInformation>
         </PageContainer>
       </>
@@ -80,6 +85,11 @@ const ProductInformation = styled.div`
 const ProductName = styled.p``;
 const ProductCategory = styled.p``;
 const ProductPrice = styled.p``;
+
+const ProductQty = styled.div`
+display: flex;
+padding: 5px 0px;
+`;
 
 const PageContainer = styled.div`
   width: 1200px;
@@ -106,5 +116,18 @@ const LoaderDiv = styled.div `
   height: 100%;
   animation: ${rotate} infinite 4s linear;
 `;
+
+const AddToCartButton = styled.button `
+  width: 100px;
+  height: 30px;
+  margin: 10px 0px;
+  background-color: #7900d9;
+  color: white;
+  border-radius: 5px;
+  &:disabled {
+    opacity: 0.4;
+  }
+`;
+
 
 export default ProductDetail;

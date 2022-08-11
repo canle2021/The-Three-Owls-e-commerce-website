@@ -1,8 +1,10 @@
-import React, {useContext, useState, useRef} from "react";
+import React, {useContext, useState, useRef, useEffect} from "react";
 import styled from "styled-components";
 import {FiLoader} from "react-icons/fi";
 import { CartContext } from "./CartContext";
 import { CurrentUserContext } from "./CurrentUserContext";
+import QuantitySelector from "./QuantitySelector";
+
 
 
 const CartItem = ({cartItem}) => {
@@ -11,6 +13,22 @@ const CartItem = ({cartItem}) => {
   const {cart, setCart} = useContext(CartContext);
   const [loading, setLoading] = useState();
   const [cartLength, setCartLength] = useState(0);
+  const [qty, setQty] = useState(cartItem.qty);
+
+  useEffect (()=> {
+    const updatedCart = cart.map((anItem) => {
+      if (parseInt(anItem.id) === cartItem._id) {
+        anItem.qty= qty;
+        return anItem;
+      }
+      else {
+        return anItem;
+      }
+    });
+  
+    setCart([...updatedCart]);
+  }, [qty])
+
 
   const deleteItem = () => {
     cartItemRef.current.style.display = "none";
@@ -28,8 +46,8 @@ const CartItem = ({cartItem}) => {
       <ItemDetails>
           <ItemDescription>{cartItem.name}</ItemDescription>
           <QuantitySection>
-            <ItemQuantity>{`Qty Ordered: ${cartItem.qty}`}</ItemQuantity>
-            <ItemsInStock>{`Qty In Stock: ${cartItem.numInStock}`}</ItemsInStock>
+            <QuantityOrderedLabel>Qty Ordered:</QuantityOrderedLabel>
+            <QuantitySelector qty={qty} setQty={setQty} inStock={cartItem.numInStock} showStock={true}/>
           </QuantitySection>
           <CategoryInformation>
             <Category>{`Category: ${cartItem.category}`} </Category>
@@ -39,7 +57,7 @@ const CartItem = ({cartItem}) => {
       </ItemDetails>
       <ItemTotal>
           <ItemTotalTitle>Total</ItemTotalTitle>
-          <ItemTotalPrice>{`$${parseFloat(cartItem.qty * cartItem.price).toFixed(2)}`}</ItemTotalPrice>
+          <ItemTotalPrice>{`$${parseFloat(qty * cartItem.price).toFixed(2)}`}</ItemTotalPrice>
       </ItemTotal>
       <DeleteItem>
           <DeleteItemButton onClick={deleteItem}>X</DeleteItemButton>
@@ -81,7 +99,6 @@ const ItemTotalTitle = styled.div`
 `;
 
 const ItemTotalPrice = styled.div`
-
 `;
 
 const DeleteItem = styled.div`
@@ -112,14 +129,9 @@ const QuantitySection = styled.div`
   justify-content: flex-start;
 `;
 
-const ItemQuantity = styled.div`
-    width: 180px;
-`;
-
-const ItemsInStock = styled.div`
-    color: grey;
-    margin: 0px 20px;
-`;
+const QuantityOrderedLabel = styled.label`
+  width: 100px;
+  `;
 
 const ItemUnitPrice = styled.h1``;
 
