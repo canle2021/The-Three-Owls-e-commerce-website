@@ -1,11 +1,13 @@
-import React, {useState, useRef, useEffet, useEffect} from "react";
+import React, {useState, useRef, useEffet, useEffect, useContext} from "react";
 import styled from "styled-components";
+import {CartContext} from "./CartContext";
 
-const QuantitySelector = ({qty, setQty, inStock, showStock}) => {
+const QuantitySelector = ({id, qty, setQty, inStock, showStock}) => {
 
   const minValue = (!inStock)? 0: 1;
   const maxValue = inStock;
   const qtyRef = useRef();
+  const {cart, getCartItemQty} = useContext(CartContext);
 
   useEffect(()=> {
     if (qtyRef != undefined && qtyRef.current != undefined)
@@ -44,16 +46,16 @@ const QuantitySelector = ({qty, setQty, inStock, showStock}) => {
     (inStock > 0) ?
     <>
       <MinusButton disabled={qty <= 1 || !inStock} onClick={handleMinus}>-</MinusButton>
-      <Input disabled={qty === 0} ref={qtyRef} type="text"/>
-      <PlusButton disabled={qty >= maxValue || !inStock} onClick={handlePlus}>+</PlusButton>
-      {showStock && <ItemsInStock>{`Qty In Stock: ${inStock}`}</ItemsInStock>}
+      <Input disabled={qty === 0} ref={qtyRef} type="text" readOnly={true}/>
+      <PlusButton disabled={qty + getCartItemQty(id) >= maxValue  || !inStock} onClick={handlePlus}>+</PlusButton>
+      {showStock  && <ItemsInStock>{`In Stock(${inStock})`}</ItemsInStock>}
     </>
     :
     <>
       <NotAvailable>Not Available</NotAvailable>
     </>
   )
-}
+};
 
 
 const MinusButton = styled.button`
@@ -80,6 +82,7 @@ const PlusButton = styled.button`
   height: auto;
   border-radius: 50%;
   margin-left: 10px;
+  margin-right:10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,7 +112,7 @@ const NotAvailable = styled.div`
 
 const ItemsInStock = styled.div`
     color: grey;
-    margin: 0px 20px;
+    margin: 0px 10px;
 `;
 
 export default QuantitySelector;

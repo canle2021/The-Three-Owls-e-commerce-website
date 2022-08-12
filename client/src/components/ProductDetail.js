@@ -9,7 +9,7 @@ import QuantitySelector from "./QuantitySelector";
 
 const ProductDetail = () => {
   const { singleProduct, setSingleProduct } = useContext(CurrentUserContext);
-  const {cart, setCart} = useContext(CartContext);
+  const {cart, setCart, getCartItemQty} = useContext(CartContext);
   const { id } = useParams();
   const qtyRef = useRef();
   const [loading, setLoading] = useState();
@@ -55,6 +55,8 @@ const ProductDetail = () => {
 
       setCart (newCart);
     }
+
+    setQty(1);
   }
 
   return (
@@ -67,9 +69,12 @@ const ProductDetail = () => {
             <ProductCategory>{singleProduct.category}</ProductCategory>
             <ProductPrice>{singleProduct.price}</ProductPrice>
             <ProductQty>
-              <QuantitySelector qty={qty} setQty={setQty} inStock={singleProduct.numInStock} showStock={true}/>
-            </ProductQty>
-            <AddToCartButton disabled={!singleProduct.numInStock} onClick={addToCart}>Add To Cart</AddToCartButton>
+              {(singleProduct.numInStock && getCartItemQty(singleProduct._id) < singleProduct.numInStock) &&
+              <QuantitySelect id={parseInt(singleProduct._id)} qty={qty} setQty={setQty} inStock={singleProduct.numInStock} showStock={false}/> }
+              <QuantityInStock>{`In Stock(${singleProduct.numInStock})`}</QuantityInStock>
+              {(getCartItemQty(singleProduct._id)>0) && <QuantityInCart>{`In Cart(${getCartItemQty(singleProduct._id)})`}</QuantityInCart>}
+            </ProductQty> 
+            <AddToCartButton disabled={!singleProduct.numInStock || getCartItemQty(singleProduct._id) >= singleProduct.numInStock} onClick={addToCart}>Add To Cart</AddToCartButton>
           </ProductInformation>
         </PageContainer>
       </>
@@ -89,6 +94,15 @@ const ProductPrice = styled.p``;
 const ProductQty = styled.div`
 display: flex;
 padding: 5px 0px;
+`;
+
+const QuantityInStock = styled.div`
+  color: grey;
+  margin-right: 10px;
+`;
+
+const QuantityInCart = styled.div`
+  color: grey;
 `;
 
 const PageContainer = styled.div`
@@ -120,13 +134,18 @@ const LoaderDiv = styled.div `
 const AddToCartButton = styled.button `
   width: 100px;
   height: 30px;
-  margin: 10px 0px;
+  margin: 20px 0px;
   background-color: #7900d9;
   color: white;
   border-radius: 5px;
   &:disabled {
     opacity: 0.4;
   }
+`;
+
+const QuantitySelect = styled(QuantitySelector)`
+  margin-right: 10px;
+  display: inline;
 `;
 
 

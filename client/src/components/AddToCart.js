@@ -59,7 +59,6 @@ const AddToCart = () => {
   }, []);
 
   useEffect(()=> {
-    console.log(`cartObjectsArray = `, cartObjectsArray);
     const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
       const cartItem = cart.find(cartItem => parseInt(cartItem.id) === cartArrayObject._id);
        if(cartItem) {
