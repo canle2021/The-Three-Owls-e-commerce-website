@@ -640,7 +640,11 @@ const checkOut = async (req, res) => {
     !body.firstName ||
     !body.lastName ||
     !body.email ||
-    !body.address
+    !body.houseNumber ||
+    !body.street ||
+    !body.province ||
+    !body.postalCode ||
+    !body.country
   ) {
     return res.status(400).json({
       status: 400,
@@ -669,7 +673,11 @@ const checkOut = async (req, res) => {
     //   firstName: body.firstName,
     //   lastName: body.lastName,
     //   email: body.email,
-    //   address: body.address,
+    //   houseNumber:houseNumber  ,
+    //   street :street,
+    //   province :province,
+    //   postalCode: postalCode,
+    //   country:country,
     // };
 
     // use map method from here
@@ -685,7 +693,7 @@ const checkOut = async (req, res) => {
         // check enough stock or not
         return res.status(400).json({
           status: 400,
-          message: ` Sorry, we ran out of stock or not enough stock for the product with id: ${idToNumber}/name: ${body.name} at this time`,
+          message: ` Sorry, we ran out of stock or not enough stock for the product with id: ${idToNumber}/name: ${findItem.name} at this time`,
         });
       } else {
         try {
@@ -704,13 +712,13 @@ const checkOut = async (req, res) => {
               data: {
                 ...body,
               },
-              message: ` Congratulations, product with id: ${idToNumber} /name: ${body.name} was successfully checked out`,
+              message: ` Congratulations, product with id: ${idToNumber} /name: ${findItem.name} was successfully checked out`,
             });
           } else {
             return res.status(500).json({
               status: 500,
 
-              message: ` Sorry, product with id: ${idToNumber} /name: ${body.name} was NOT successfully checked out for some reason`,
+              message: ` Sorry, product with id: ${idToNumber} /name: ${findItem.name} was NOT successfully checked out for some reason`,
             });
           }
         } catch (err) {
@@ -743,7 +751,11 @@ const addOrder = async (req, res) => {
     !body.firstName ||
     !body.lastName ||
     !body.email ||
-    !body.address
+    !body.houseNumber ||
+    !body.street ||
+    !body.province ||
+    !body.postalCode ||
+    !body.country
   ) {
     return res.status(400).json({
       status: 400,
@@ -779,7 +791,41 @@ const addOrder = async (req, res) => {
 
   client.close();
 };
+/**********************************************************/
+/*  getSingleProduct:
+/**********************************************************/
+const getSingleOrder = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const dbName = "ecommerce";
+  const { _id } = req.params;
+  console.log("id", _id);
 
+  // typeOf _id in each item in DB is a number, this step to transform req params to number for searching purpose.
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+
+    const retrieveProduct = await db.collection("Orders").findOne({ _id });
+
+    if (retrieveProduct) {
+      return res.status(200).json({
+        status: 200,
+        message: `You successfully get the order with id: ${_id}`,
+        data: retrieveProduct,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        message: `The order with id: ${_id} does not exist`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, message: err.message });
+  } finally {
+    client.close();
+  }
+};
 module.exports = {
   getItems,
   getCompanies,
@@ -796,4 +842,5 @@ module.exports = {
   checkOut,
   getOrders,
   addOrder,
+  getSingleOrder,
 };
