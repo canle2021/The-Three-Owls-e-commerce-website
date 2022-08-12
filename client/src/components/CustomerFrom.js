@@ -5,7 +5,7 @@ import { CartContext } from "./CartContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 const CustomerForm = ({ cartObjectsArray }) => {
-  const { orderId, setOrderId } = useContext(CartContext);
+  const { orderId, setOrderId, cart, setCart } = useContext(CartContext);
   const [values, setValues] = useState(null);
   const [inputs, setInputs] = useState(null);
   const navagate = useNavigate();
@@ -18,60 +18,62 @@ const CustomerForm = ({ cartObjectsArray }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setInputs(values);
-    let objectToBePosted = {
-      _id: uuidv4(),
-      successfullyCheckoutItems: [],
-      failedCheckoutItems: [],
-      ...values,
-    };
-    setOrderId(objectToBePosted._id);
-    localStorage.setItem("orderId", `${objectToBePosted._id}`);
-    console.log("form content", objectToBePosted);
-    const checkEachItem = cartObjectsArray.map(async (item) => {
-      const checkEachTime = {
-        ...item,
+    if (cart !== "cart" || cart !== []) {
+      let objectToBePosted = {
+        _id: uuidv4(),
+        successfullyCheckoutItems: [],
+        failedCheckoutItems: [],
         ...values,
       };
-      //   console.log("checkEachTime", checkEachTime);
-      try {
-        const posting = await fetch(`/verify-for-checkout`, {
-          method: "POST",
-          body: JSON.stringify(checkEachTime),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        const converToJson = await posting.json();
-        // window.alert(`${converToJson.message}`);
-        console.log("posting", converToJson);
-        if (converToJson.status === 200) {
-          objectToBePosted.successfullyCheckoutItems.push(item);
-        } else {
-          objectToBePosted.failedCheckoutItems.push(item);
+      setOrderId(objectToBePosted._id);
+      localStorage.setItem("orderId", `${objectToBePosted._id}`);
+      console.log("form content", objectToBePosted);
+      const checkEachItem = cartObjectsArray.map(async (item) => {
+        const checkEachTime = {
+          ...item,
+          ...values,
+        };
+        //   console.log("checkEachTime", checkEachTime);
+        try {
+          const posting = await fetch(`/verify-for-checkout`, {
+            method: "POST",
+            body: JSON.stringify(checkEachTime),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          });
+          const converToJson = await posting.json();
+          // window.alert(`${converToJson.message}`);
+          console.log("posting", converToJson);
+          if (converToJson.status === 200) {
+            objectToBePosted.successfullyCheckoutItems.push(item);
+          } else {
+            objectToBePosted.failedCheckoutItems.push(item);
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
-      }
-    });
+      });
 
-    Promise.all(checkEachItem).then(async () => {
-      try {
-        const posting = await fetch(`/add-order`, {
-          method: "POST",
-          body: JSON.stringify(objectToBePosted),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
-        const converToJson = await posting.json();
+      Promise.all(checkEachItem).then(async () => {
+        try {
+          const posting = await fetch(`/add-order`, {
+            method: "POST",
+            body: JSON.stringify(objectToBePosted),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          });
+          const converToJson = await posting.json();
 
-        navagate(`/confirmation`);
-      } catch (err) {
-        console.log(err);
-      }
-    });
+          navagate(`/confirmation`);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
   };
   return (
     <FormDiv>

@@ -19,6 +19,7 @@ const {
   checkOut,
   getOrders,
   addOrder,
+  getSingleOrder,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -55,6 +56,7 @@ express()
   .get("/get-customer/:_id", getSingleCustomer)
   .get("/get-item-stock/:_id", getItemStock)
   .get("/get-orders", getOrders)
+  .get("/get-single-order/:_id", getSingleOrder)
   .post("/add-customer", addCustomer)
   .patch("/update-item", updateItem)
   .patch("/update-item/:_id/stock/:qty", updateItemStock)
