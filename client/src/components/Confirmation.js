@@ -63,7 +63,12 @@ const Confirmation = () => {
                       {confirmOrderObject.lastName}
                     </p>
                     <p>Customer's email: {confirmOrderObject.email}</p>
-                    <p>Customer's address: {confirmOrderObject.address}</p>
+                    <p>
+                      Customer's address: {confirmOrderObject.houseNumber}{" "}
+                      {confirmOrderObject.street} {confirmOrderObject.province}{" "}
+                      {confirmOrderObject.postalCode}{" "}
+                      {confirmOrderObject.country}
+                    </p>
                   </CustomerInformation>
                   <CartItems>
                     {checkedOutItems &&

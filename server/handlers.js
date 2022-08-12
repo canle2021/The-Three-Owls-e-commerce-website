@@ -640,7 +640,11 @@ const checkOut = async (req, res) => {
     !body.firstName ||
     !body.lastName ||
     !body.email ||
-    !body.address
+    !body.houseNumber ||
+    !body.street ||
+    !body.province ||
+    !body.postalCode ||
+    !body.country
   ) {
     return res.status(400).json({
       status: 400,
@@ -669,7 +673,11 @@ const checkOut = async (req, res) => {
     //   firstName: body.firstName,
     //   lastName: body.lastName,
     //   email: body.email,
-    //   address: body.address,
+    //   houseNumber:houseNumber  ,
+    //   street :street,
+    //   province :province,
+    //   postalCode: postalCode,
+    //   country:country,
     // };
 
     // use map method from here
@@ -743,7 +751,11 @@ const addOrder = async (req, res) => {
     !body.firstName ||
     !body.lastName ||
     !body.email ||
-    !body.address
+    !body.houseNumber ||
+    !body.street ||
+    !body.province ||
+    !body.postalCode ||
+    !body.country
   ) {
     return res.status(400).json({
       status: 400,
