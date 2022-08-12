@@ -33,7 +33,6 @@ const CartItem = ({cartItem}) => {
   const deleteItem = () => {
     cartItemRef.current.style.display = "none";
     const newCart = cart.filter(item => {
-      console.log(`${item.id} != ${cartItem._id}`,item.id != cartItem._id);
       return (item.id != cartItem._id);
     });
 
