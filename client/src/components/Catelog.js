@@ -14,7 +14,7 @@ const Catelog = () => {
           allCateogries.map((categories, index) => {
             const linkToEachCategory = `/collection/${allCateogries[index]}`;
             return (
-              <Link to={linkToEachCategory}>
+              <Link key={categories} to={linkToEachCategory}>
                 <BoxContainer>
                   <CategoriesBox categoriesBackground={categoriesBackground}>
                     <CategoriesBoxTitle>{categories}</CategoriesBoxTitle>

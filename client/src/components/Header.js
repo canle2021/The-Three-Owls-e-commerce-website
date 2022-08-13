@@ -18,9 +18,6 @@ const Header = ({ logo }) => {
     navigate("/cart");
   };
 
-  const errorPage = () => {
-    navigate("/error");
-  };
   const constructionPage = () => {
     navigate("/construction");
   };
@@ -48,7 +45,7 @@ const Header = ({ logo }) => {
         <NavLink onClick={allCategoriesButton}>Home</NavLink>
         <NavLink onClick={shopLink}>Shop</NavLink>
         <NavLink onClick={constructionPage}>Sale</NavLink>
-        <NavLink onClick={errorPage}>Contact us</NavLink>
+        <NavLink onClick={constructionPage}>Contact us</NavLink>
         <NavLink onClick={constructionPage}>About us</NavLink>
       </NavMenu>
     </CompContainer>
