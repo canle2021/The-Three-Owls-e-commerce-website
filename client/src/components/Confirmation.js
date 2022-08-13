@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components";
 import { CartContext } from "./CartContext";
 import { FiLoader } from "react-icons/fi";
 import ErrorPage from "./ErrorPage.js";
+import { BsFillCheckCircleFill, BsXCircleFill } from "react-icons/bs";
 
 const Confirmation = () => {
   const [loading, setLoading] = useState();
@@ -57,15 +58,20 @@ const Confirmation = () => {
             <PageContainer>
               {checkedOutItems && checkedOutItems.length > 0 ? (
                 <SuccessfulCheckoutDiv>
-                  <PageTitle>Successfully checked out</PageTitle>
+                  <PageTitle>
+                    <BsFillCheckCircleFill
+                      style={{ color: "#30b06b", marginRight: "10px" }}
+                    />
+                    Successfully purchased
+                  </PageTitle>
 
                   <CustomerInformation>
                     <OrderNumberP>Order number: {orderId}</OrderNumberP>
                     <p>
-                      Customer's name: {confirmOrderObject.firstName}{" "}
+                      Name: {confirmOrderObject.firstName}{" "}
                       {confirmOrderObject.lastName}
                     </p>
-                    <p>Customer's email: {confirmOrderObject.email}</p>
+                    <p>Email: {confirmOrderObject.email}</p>
                     <p>
                       Customer's address: {confirmOrderObject.houseNumber}{" "}
                       {confirmOrderObject.street} {confirmOrderObject.city}{" "}
@@ -80,7 +86,7 @@ const Confirmation = () => {
                         return (
                           <EachProduct key={index}>
                             <p>Product's name: {item.name}</p>
-                            <p>Product's Id: {item._id}</p>
+                            <p>Product's ID: {item._id}</p>
                             <p>Required quantity: {item.qty}</p>
                             <p>Unit price: ${item.price}</p>
                           </EachProduct>
@@ -97,14 +103,20 @@ const Confirmation = () => {
               ) : null}
               {notCheckedOutItems && notCheckedOutItems.length > 0 ? (
                 <NotSuccessfulCheckoutDiv>
-                  <NotCheckOutTitle>Not be checked out items</NotCheckOutTitle>
+                  {/* -------REPLACE----------- */}
+                  {/* <NotCheckOutTitle>Not be checked out items</NotCheckOutTitle> */}
+                  <PageTitle>
+                    <BsXCircleFill
+                      style={{ color: "#30b06b", marginRight: "10px" }}
+                    />
+                    purchase is not successful
+                  </PageTitle>
+                  {/* ---------------------- */}
                   <ExplainationP>
-                    {" "}
                     Due to out-of-stock/not-enough-stock for your required
                     quantity or some other reasons. We apologize for the items
                     that you could not check out:
                   </ExplainationP>
-
                   {checkedOutItems && checkedOutItems.length > 0 ? null : (
                     <CustomerInformation>
                       <OrderNumberP>Order number: {orderId}</OrderNumberP>
@@ -129,7 +141,7 @@ const Confirmation = () => {
                         return (
                           <EachProduct key={index}>
                             <p>Product's name: {item.name}</p>
-                            <p>Product's Id: {item._id}</p>
+                            <p>Product's ID: {item._id}</p>
                             <p>Required quantity: {item.qty}</p>
                             <p>Unit Price: ${item.price}</p>
                           </EachProduct>
@@ -157,11 +169,12 @@ const ExplainationP = styled.p`
 const NotSuccessfulCheckoutDiv = styled.div``;
 const SuccessfulCheckoutDiv = styled.div``;
 const OrderNumberP = styled.p``;
-const EachProduct = styled.div`
-  border-bottom: dotted 2px green;
-`;
+const EachProduct = styled.div``;
 const CustomerInformation = styled.div`
-  border-bottom: solid 2px blue;
+  border-bottom: solid 1px lightgrey;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  line-height: 32px;
 `;
 const rotate = keyframes`
   from {
@@ -200,7 +213,10 @@ const PageTitle = styled.div`
   font-family: "IBM Plex Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 `;
 const NotCheckOutTitle = styled.div`
   font-size: 35px;
@@ -216,6 +232,10 @@ const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
+  line-height: 32px;
 `;
 
 const CartTotal = styled.div`

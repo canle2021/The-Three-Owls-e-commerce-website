@@ -84,7 +84,8 @@ const CustomerForm = ({ cartObjectsArray }) => {
   return (
     <FormDiv>
       <Form onSubmit={handleSubmit}>
-        <HeadLine>CUSTOMER'S INFORMATION</HeadLine>
+        <CheckoutTitle>Checkout</CheckoutTitle>
+        <HeadLine>Customer's information</HeadLine>
         <Input
           placeholder="First Name"
           type="text"
@@ -107,7 +108,7 @@ const CustomerForm = ({ cartObjectsArray }) => {
           required
           onChange={handleChange}
         />
-        <CustomerAddress>Address: </CustomerAddress>
+        <HeadLine>Address: </HeadLine>
         <Input
           placeholder="House Number"
           type="text"
@@ -153,7 +154,7 @@ const CustomerForm = ({ cartObjectsArray }) => {
 
         <SubmitButton
           type="submit"
-          value="Check out!"
+          value="Checkout"
           disabled={disabled}
           name="confirmButton"
           className={disabled ? "disabled" : ""}
@@ -171,36 +172,55 @@ const HeadLine = styled.h1`
   font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 20px;
+  margin-top: 30px;
 `;
 const SubmitButton = styled.input`
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-weight: 500;
+  font-size: 20px;
   cursor: pointer;
   color: white;
-  background-color: blue;
+  background-color: #30b06b;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 50px;
+  text-align: center;
+  width: 100%;
+  height: 60px;
   margin-top: 10px;
-  font-family: var("Permanent Marker", Arial, Helvetica, sans-serif);
+  font-family: "Roboto", sans-serif;
+  border: none;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  &:hover {
+    background-color: #269157;
+
+    transition: 0.5s ease-in-out;
+  }
   &.disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
 `;
 
+const CheckoutTitle = styled.h3`
+  font-size: 35px;
+  color: black;
+  font-family: "IBM Plex Sans", sans-serif;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 50px;
+`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  padding: 25px;
 `;
 const Input = styled.input`
-  width: 400px;
-  height: 25px;
+  width: 390px;
+  height: 40px;
   margin-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 `;
 
 const FormDiv = styled.div`
