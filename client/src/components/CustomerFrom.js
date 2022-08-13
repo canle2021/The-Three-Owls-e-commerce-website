@@ -124,6 +124,13 @@ const CustomerForm = ({ cartObjectsArray }) => {
           onChange={handleChange}
         />
         <Input
+          placeholder="City"
+          type="text"
+          name="city"
+          required
+          onChange={handleChange}
+        />
+        <Input
           placeholder="Province"
           type="text"
           name="province"

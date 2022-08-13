@@ -73,8 +73,9 @@ const Confirmation = () => {
                     </p>
                     <p>Email: {confirmOrderObject.email}</p>
                     <p>
-                      Address: {confirmOrderObject.houseNumber}{" "}
-                      {confirmOrderObject.street} {confirmOrderObject.province}{" "}
+                      Customer's address: {confirmOrderObject.houseNumber}{" "}
+                      {confirmOrderObject.street} {confirmOrderObject.city}{" "}
+                      {confirmOrderObject.province}{" "}
                       {confirmOrderObject.postalCode}{" "}
                       {confirmOrderObject.country}
                     </p>
@@ -125,7 +126,13 @@ const Confirmation = () => {
                         {confirmOrderObject.lastName}
                       </p>
                       <p>Customer's email: {confirmOrderObject.email}</p>
-                      <p>Customer's address: {confirmOrderObject.address}</p>
+                      <p>
+                        Customer's address: {confirmOrderObject.houseNumber}{" "}
+                        {confirmOrderObject.street} {confirmOrderObject.city}{" "}
+                        {confirmOrderObject.province}{" "}
+                        {confirmOrderObject.postalCode}{" "}
+                        {confirmOrderObject.country}
+                      </p>
                     </CustomerInformation>
                   )}
                   <CartItems>
