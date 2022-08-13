@@ -642,6 +642,7 @@ const checkOut = async (req, res) => {
     !body.email ||
     !body.houseNumber ||
     !body.street ||
+    !body.city ||
     !body.province ||
     !body.postalCode ||
     !body.country
@@ -753,6 +754,7 @@ const addOrder = async (req, res) => {
     !body.email ||
     !body.houseNumber ||
     !body.street ||
+    !body.city ||
     !body.province ||
     !body.postalCode ||
     !body.country
