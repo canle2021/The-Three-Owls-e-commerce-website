@@ -7,7 +7,7 @@ import CartItem from "./CartItem";
 import CustomerForm from "./CustomerFrom";
 
 const AddToCart = () => {
-  const { cart, setCart, cartTotal, setCartTotal, calculateCartTotal } =
+  const { cart, cartTotal, setCartTotal, calculateCartTotal } =
     useContext(CartContext);
   const [loading, setLoading] = useState();
   const [cartObjectsArray, setCartObjectsArray] = useState([]);
@@ -52,7 +52,8 @@ const AddToCart = () => {
   useEffect(() => {
     const updatedCartObjectsArray = cartObjectsArray.map((cartArrayObject) => {
       const cartItem = cart.find(
-        (cartItem) => cartArrayObject && (parseInt(cartItem.id) === cartArrayObject._id)
+        (cartItem) =>
+          cartArrayObject && parseInt(cartItem.id) === cartArrayObject._id
       );
       if (cartItem) {
         cartArrayObject.qty = cartItem.qty;
@@ -159,18 +160,6 @@ const TotalAmount = styled.div`
 const CheckoutSection = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-const CheckoutButton = styled.button`
-  color: white;
-  background-color: blue;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 50px;
-  margin-top: 10px;
 `;
 
 export default AddToCart;

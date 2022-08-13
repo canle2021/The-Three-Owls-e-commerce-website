@@ -18,9 +18,6 @@ const Header = ({ logo }) => {
     navigate("/cart");
   };
 
-  const errorPage = () => {
-    navigate("/error");
-  };
   const constructionPage = () => {
     navigate("/construction");
   };
@@ -48,7 +45,7 @@ const Header = ({ logo }) => {
         <NavLink onClick={allCategoriesButton}>Home</NavLink>
         <NavLink onClick={shopLink}>Shop</NavLink>
         <NavLink onClick={constructionPage}>Sale</NavLink>
-        <NavLink onClick={errorPage}>Contact us</NavLink>
+        <NavLink onClick={constructionPage}>Contact us</NavLink>
         <NavLink onClick={constructionPage}>About us</NavLink>
       </NavMenu>
     </CompContainer>
@@ -138,11 +135,4 @@ const CartButtonText = styled.div`
   font-weight: 500;
 `;
 
-const CartItemsCount = styled.div`
-  font-size: 8px;
-  height: 8px;
-  display: flex;
-  justify-content: center;
-  background-color: red;
-`;
 export default Header;

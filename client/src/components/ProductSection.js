@@ -32,6 +32,7 @@ const ProductSection = () => {
           sliceItem.reverse().map((items) => {
             return (
               <ProductCard
+                key={items._id}
                 pName={items.name}
                 pPrice={items.price}
                 imageSrc={items.imageSrc}

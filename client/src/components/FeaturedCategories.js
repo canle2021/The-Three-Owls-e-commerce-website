@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-  Link,
-} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import categoriesBackground from "../components/asset/categoriesBanner.jpg";
 const FeaturedCategories = () => {
   const navigate = useNavigate();
