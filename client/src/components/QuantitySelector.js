@@ -20,7 +20,7 @@ const QuantitySelector = ({id, qty, setQty, inStock, showStock}) => {
     qtyRef.current.value = (currentQty > minValue) ? currentQty - 1 : minValue;
 
     setQty(parseInt(qtyRef.current.value));
-  }
+  };
 
   const handlePlus = () => {
     const currentQty = parseInt(qtyRef.current.value);
@@ -28,7 +28,7 @@ const QuantitySelector = ({id, qty, setQty, inStock, showStock}) => {
     qtyRef.current.value =  (currentQty < maxValue) ? currentQty + 1 : maxValue;
     
     setQty(parseInt(qtyRef.current.value));
-  }
+  };
 
   const handleManualInput = () => {
 
@@ -40,7 +40,7 @@ const QuantitySelector = ({id, qty, setQty, inStock, showStock}) => {
     }
     
     setQty(parseInt(qtyRef.current.value));
-  }
+  };
 
   return (
     (inStock > 0) ?
