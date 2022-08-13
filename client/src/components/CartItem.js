@@ -1,16 +1,12 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FiLoader } from "react-icons/fi";
 import { CartContext } from "./CartContext";
-import { CurrentUserContext } from "./CurrentUserContext";
 import QuantitySelector from "./QuantitySelector";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 const CartItem = ({ cartItem }) => {
   const cartItemRef = useRef();
   const { cart, setCart } = useContext(CartContext);
-  const [loading, setLoading] = useState();
-  const [cartLength, setCartLength] = useState(0);
   const [qty, setQty] = useState(cartItem.qty);
 
   useEffect(() => {
@@ -22,14 +18,13 @@ const CartItem = ({ cartItem }) => {
         return anItem;
       }
     });
-
     setCart([...updatedCart]);
   }, [qty]);
 
   const deleteItem = () => {
     cartItemRef.current.style.display = "none";
     const newCart = cart.filter((item) => {
-      return item.id != cartItem._id;
+      return parseInt(item.id) !== parseInt(cartItem._id);
     });
 
     setCart(newCart);
@@ -38,7 +33,12 @@ const CartItem = ({ cartItem }) => {
   return (
     <CartItemContainer ref={cartItemRef}>
       <ItemImage>
-        <img src={cartItem.imageSrc} width="100%" height="100%" />
+        <img
+          src={cartItem.imageSrc}
+          width="100%"
+          height="100%"
+          alt="productImg"
+        />
       </ItemImage>
       <ItemDetails>
         <ItemDescription>{cartItem.name}</ItemDescription>
@@ -47,7 +47,7 @@ const CartItem = ({ cartItem }) => {
             {`Category: ${cartItem.category}   |   Body Part: ${cartItem.body_location}`}{" "}
           </Category>
         </CategoryInformation>
-        <ItemUnitPrice>{`$${cartItem.price}`}</ItemUnitPrice>{" "}
+        <ItemUnitPrice>{`Per unit: $${cartItem.price}`}</ItemUnitPrice>{" "}
         <QuantitySection>
           <QuantityOrderedLabel>Qty Ordered:</QuantityOrderedLabel>
           <QuantitySelector
@@ -58,17 +58,6 @@ const CartItem = ({ cartItem }) => {
           />
         </QuantitySection>
       </ItemDetails>
-
-      {/* -------Item TOTAL PRICE--------------- */}
-
-      {/* <ItemTotal>
-        <ItemTotalTitle>Total</ItemTotalTitle>
-        <ItemTotalPrice>{`$${parseFloat(qty * cartItem.price).toFixed(
-          2
-        )}`}</ItemTotalPrice>
-      </ItemTotal> */}
-
-      {/* -------Item TOTAL PRICE--------------- */}
       <DeleteItem>
         <DeleteItemButton onClick={deleteItem}>
           <FaRegTrashAlt style={{ fontSize: "20px" }} />
@@ -103,18 +92,6 @@ const ItemDetails = styled.div`
   width: 70%;
   margin-left: -45px;
 `;
-
-const ItemTotal = styled.div`
-  width: 8%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ItemTotalTitle = styled.div`
-  font-weight: bold;
-`;
-
-const ItemTotalPrice = styled.div``;
 
 const DeleteItem = styled.div`
   display: flex;
@@ -170,10 +147,6 @@ const CategoryInformation = styled.div`
 const Category = styled.h1`
   margin-right: 20px;
   color: gray;
-`;
-
-const BodyLocation = styled.h1`
-  margin: 0px 20px;
 `;
 
 export default CartItem;

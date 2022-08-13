@@ -10,8 +10,7 @@ const Confirmation = () => {
   const [loading, setLoading] = useState();
   const [error, setError] = useState(false);
   const [confirmOrderObject, setConfirmOrderObject] = useState([]);
-  const { orderId, setOrderId, setCart, setCartTotal } =
-    useContext(CartContext);
+  const { orderId, setCart, setCartTotal } = useContext(CartContext);
   const [notCheckedOutItems, setNotCheckedOutItems] = useState([]);
   const [checkedOutItems, setCheckedOutItems] = useState();
   useEffect(() => {
@@ -78,8 +77,7 @@ const Confirmation = () => {
                       <Strong>Email:</Strong> {confirmOrderObject.email}
                     </p>
                     <p>
-                      <Strong>Customer's address:</Strong>{" "}
-                      {confirmOrderObject.houseNumber}{" "}
+                      <Strong>Address:</Strong> {confirmOrderObject.houseNumber}{" "}
                       {confirmOrderObject.street} {confirmOrderObject.city}{" "}
                       {confirmOrderObject.province}{" "}
                       {confirmOrderObject.postalCode}{" "}
@@ -117,16 +115,12 @@ const Confirmation = () => {
               ) : null}
               {notCheckedOutItems && notCheckedOutItems.length > 0 ? (
                 <NotSuccessfulCheckoutDiv>
-                  {/* -------REPLACE----------- */}
-                  {/* <NotCheckOutTitle>Not be checked out items</NotCheckOutTitle> */}
                   <PageTitle>
                     <BsXCircleFill
                       style={{ color: "#e63629", marginRight: "10px" }}
                     />
                     purchase is not successful
                   </PageTitle>
-                  {/* ---------------------- */}
-
                   <ProblemBox>
                     <ExplainationP>
                       Due to out-of-stock/not-enough-stock for your required
@@ -265,14 +259,6 @@ const PageTitle = styled.div`
   align-items: center;
   width: 100%;
 `;
-const NotCheckOutTitle = styled.div`
-  font-size: 35px;
-  color: red;
-  font-family: "IBM Plex Sans", sans-serif;
-  text-transform: uppercase;
-  font-weight: 800;
-  margin-bottom: 10px;
-`;
 
 const CartItems = styled.div`
   width: 100%;
@@ -294,23 +280,6 @@ const TotalAmount = styled.div`
   margin-top: 10px;
   font-size: 25px;
   font-weight: bold;
-`;
-
-const CheckoutSection = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const CheckoutButton = styled.button`
-  color: white;
-  background-color: blue;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 50px;
-  margin-top: 10px;
 `;
 
 export default Confirmation;

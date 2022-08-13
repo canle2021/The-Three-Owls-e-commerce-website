@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineForm } from "react-icons/ai";
 const CustomerForm = ({ cartObjectsArray }) => {
-  const { orderId, setOrderId, cart, setCart } = useContext(CartContext);
+  const { setOrderId, cart } = useContext(CartContext);
   const [values, setValues] = useState(null);
   const [inputs, setInputs] = useState(null);
   let disabled = true;
@@ -29,7 +29,6 @@ const CustomerForm = ({ cartObjectsArray }) => {
       };
       setOrderId(objectToBePosted._id);
       localStorage.setItem("orderId", `${objectToBePosted._id}`);
-      console.log("form content", objectToBePosted);
       const checkEachItem = cartObjectsArray.map(async (item) => {
         const checkEachTime = {
           ...item,
@@ -47,7 +46,6 @@ const CustomerForm = ({ cartObjectsArray }) => {
           });
           const converToJson = await posting.json();
 
-          console.log("posting", converToJson);
           if (converToJson.status === 200) {
             objectToBePosted.successfullyCheckoutItems.push(item);
           } else {
@@ -68,17 +66,15 @@ const CustomerForm = ({ cartObjectsArray }) => {
               "Content-Type": "application/json",
             },
           });
-          const converToJson = await posting.json();
 
           navagate(`/confirmation`);
         } catch (err) {
           console.log(err);
         }
       });
-      console.log("Post", objectToBePosted);
     }
   };
-  console.log("cartObjectsArray", cart);
+
   if (cart.length > 0) {
     disabled = false;
   }
@@ -168,11 +164,7 @@ const CustomerForm = ({ cartObjectsArray }) => {
     </FormDiv>
   );
 };
-const CustomerAddress = styled.h2`
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 7px;
-`;
+
 const HeadLine = styled.h1`
   font-weight: bold;
   font-size: 1.5rem;

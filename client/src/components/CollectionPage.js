@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CurrentUserContext } from "./CurrentUserContext";
 import { FiLoader } from "react-icons/fi";
 import ProductCard from "./ProductCard";
@@ -25,23 +25,20 @@ const CollectionPage = () => {
       })
       .finally(() => setLoading(false));
   }, [category]);
-  console.log("data", singleCategory);
-  console.log("title", category);
   return !loading ? (
     <>
       <Head1>{category}</Head1>
       <PageContainer>
         {singleCategory.map((element, index) => {
           return (
-            // <Link to={`/product/${element._id}`} key={index}>
             <ProductCard
+              key={element._id}
               imageSrc={element.imageSrc}
               pName={element.name}
               pPrice={element.price}
               pStock={element.numInStock}
               pId={element._id}
             />
-            // </Link>
           );
         })}
       </PageContainer>

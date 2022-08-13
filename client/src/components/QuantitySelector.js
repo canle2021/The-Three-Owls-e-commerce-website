@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffet,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { CartContext } from "./CartContext";
 
@@ -12,10 +6,10 @@ const QuantitySelector = ({ id, qty, setQty, inStock, showStock }) => {
   const minValue = !inStock ? 0 : 1;
   const maxValue = inStock;
   const qtyRef = useRef();
-  const { cart, getCartItemQty } = useContext(CartContext);
+  const { getCartItemQty } = useContext(CartContext);
 
   useEffect(() => {
-    if (qtyRef != undefined && qtyRef.current != undefined)
+    if (qtyRef !== undefined && qtyRef.current !== undefined)
       qtyRef.current.value = qty;
   }, [qty]);
 
@@ -31,16 +25,6 @@ const QuantitySelector = ({ id, qty, setQty, inStock, showStock }) => {
     const currentQty = parseInt(qtyRef.current.value);
 
     qtyRef.current.value = currentQty < maxValue ? currentQty + 1 : maxValue;
-
-    setQty(parseInt(qtyRef.current.value));
-  };
-
-  const handleManualInput = () => {
-    if (isNaN(-qtyRef.current.value) || parseInt(qtyRef.current.value) < 1) {
-      qtyRef.current.value = 1;
-    } else if (parseInt(qtyRef.current.value) > maxValue) {
-      qtyRef.current.value = maxValue;
-    }
 
     setQty(parseInt(qtyRef.current.value));
   };
