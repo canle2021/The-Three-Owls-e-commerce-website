@@ -52,7 +52,7 @@ const AddToCart = () => {
   useEffect(() => {
     const updatedCartObjectsArray = cartObjectsArray.map((cartArrayObject) => {
       const cartItem = cart.find(
-        (cartItem) => parseInt(cartItem.id) === cartArrayObject._id
+        (cartItem) => cartArrayObject && (parseInt(cartItem.id) === cartArrayObject._id)
       );
       if (cartItem) {
         cartArrayObject.qty = cartItem.qty;
