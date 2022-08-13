@@ -66,14 +66,20 @@ const Confirmation = () => {
                   </PageTitle>
 
                   <CustomerInformation>
-                    <OrderNumberP>Order number: {orderId}</OrderNumberP>
+                    <OrderNumberP>
+                      {" "}
+                      <Strong>Order number:</Strong> {orderId}
+                    </OrderNumberP>
                     <p>
-                      Name: {confirmOrderObject.firstName}{" "}
+                      <Strong>Name:</Strong> {confirmOrderObject.firstName}{" "}
                       {confirmOrderObject.lastName}
                     </p>
-                    <p>Email: {confirmOrderObject.email}</p>
                     <p>
-                      Customer's address: {confirmOrderObject.houseNumber}{" "}
+                      <Strong>Email:</Strong> {confirmOrderObject.email}
+                    </p>
+                    <p>
+                      <Strong>Customer's address:</Strong>{" "}
+                      {confirmOrderObject.houseNumber}{" "}
                       {confirmOrderObject.street} {confirmOrderObject.city}{" "}
                       {confirmOrderObject.province}{" "}
                       {confirmOrderObject.postalCode}{" "}
@@ -85,10 +91,18 @@ const Confirmation = () => {
                       checkedOutItems.map((item, index) => {
                         return (
                           <EachProduct key={index}>
-                            <p>Product's name: {item.name}</p>
-                            <p>Product's ID: {item._id}</p>
-                            <p>Required quantity: {item.qty}</p>
-                            <p>Unit price: ${item.price}</p>
+                            <p>
+                              <Strong>Product's name:</Strong> {item.name}
+                            </p>
+                            <p>
+                              <Strong>Product's ID:</Strong> {item._id}
+                            </p>
+                            <p>
+                              <Strong>Required quantity:</Strong> {item.qty}
+                            </p>
+                            <p>
+                              <Strong>Unit price:</Strong> ${item.price}
+                            </p>
                           </EachProduct>
                         );
                       })}
@@ -96,7 +110,7 @@ const Confirmation = () => {
                   <CartTotal>
                     <TotalAmount>
                       {" "}
-                      {`Total Order's Price: $ ${totalPrice}`}
+                      {`Total Order's Price: $${totalPrice}`}
                     </TotalAmount>
                   </CartTotal>
                 </SuccessfulCheckoutDiv>
@@ -107,27 +121,35 @@ const Confirmation = () => {
                   {/* <NotCheckOutTitle>Not be checked out items</NotCheckOutTitle> */}
                   <PageTitle>
                     <BsXCircleFill
-                      style={{ color: "#30b06b", marginRight: "10px" }}
+                      style={{ color: "#e63629", marginRight: "10px" }}
                     />
                     purchase is not successful
                   </PageTitle>
                   {/* ---------------------- */}
-                  <ExplainationP>
-                    Due to out-of-stock/not-enough-stock for your required
-                    quantity or some other reasons. We apologize for the items
-                    that you could not check out:
-                  </ExplainationP>
+
+                  <ProblemBox>
+                    <ExplainationP>
+                      Due to out-of-stock/not-enough-stock for your required
+                      quantity or some other reasons. We apologize for the items
+                      that you could not check out.
+                    </ExplainationP>
+                  </ProblemBox>
                   {checkedOutItems && checkedOutItems.length > 0 ? null : (
                     <CustomerInformation>
-                      <OrderNumberP>Order number: {orderId}</OrderNumberP>
+                      <OrderNumberP>
+                        <Strong>Order number:</Strong> {orderId}
+                      </OrderNumberP>
 
                       <p>
-                        Customer's name: {confirmOrderObject.firstName}{" "}
+                        <Strong>Name:</Strong> {confirmOrderObject.firstName}{" "}
                         {confirmOrderObject.lastName}
                       </p>
-                      <p>Customer's email: {confirmOrderObject.email}</p>
                       <p>
-                        Customer's address: {confirmOrderObject.houseNumber}{" "}
+                        <Strong>Email:</Strong> {confirmOrderObject.email}
+                      </p>
+                      <p>
+                        <Strong>Address:</Strong>{" "}
+                        {confirmOrderObject.houseNumber}{" "}
                         {confirmOrderObject.street} {confirmOrderObject.city}{" "}
                         {confirmOrderObject.province}{" "}
                         {confirmOrderObject.postalCode}{" "}
@@ -140,10 +162,18 @@ const Confirmation = () => {
                       notCheckedOutItems.map((item, index) => {
                         return (
                           <EachProduct key={index}>
-                            <p>Product's name: {item.name}</p>
-                            <p>Product's ID: {item._id}</p>
-                            <p>Required quantity: {item.qty}</p>
-                            <p>Unit Price: ${item.price}</p>
+                            <p>
+                              <Strong>Product's name:</Strong> {item.name}
+                            </p>
+                            <p>
+                              <Strong>Product's ID:</Strong> {item._id}
+                            </p>
+                            <p>
+                              <Strong>Required quantity:</Strong> {item.qty}
+                            </p>
+                            <p>
+                              <Strong>Unit Price:</Strong> ${item.price}
+                            </p>
                           </EachProduct>
                         );
                       })}
@@ -163,8 +193,25 @@ const Confirmation = () => {
     </LoaderDiv>
   );
 };
+
+const ProblemBox = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  border: 2px solid #e63629;
+  border-radius: 10px;
+  background-color: #ffe2e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+`;
+
+const Strong = styled.span`
+  font-weight: 500;
+`;
 const ExplainationP = styled.p`
-  border-bottom: 2px solid red;
+  text-align: center;
 `;
 const NotSuccessfulCheckoutDiv = styled.div``;
 const SuccessfulCheckoutDiv = styled.div``;
@@ -244,6 +291,8 @@ const CartTotal = styled.div`
 `;
 
 const TotalAmount = styled.div`
+  margin-top: 10px;
+  font-size: 25px;
   font-weight: bold;
 `;
 

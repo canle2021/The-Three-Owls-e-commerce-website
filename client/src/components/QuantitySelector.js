@@ -132,7 +132,7 @@ const Input = styled.input`
 `;
 
 const NotAvailable = styled.div`
-  color: red;
+  color: #e63629;
   font-weight: bold;
 `;
 

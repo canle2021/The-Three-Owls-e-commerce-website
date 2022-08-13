@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { CartContext } from "./CartContext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineForm } from "react-icons/ai";
 const CustomerForm = ({ cartObjectsArray }) => {
   const { orderId, setOrderId, cart, setCart } = useContext(CartContext);
   const [values, setValues] = useState(null);
@@ -84,7 +85,11 @@ const CustomerForm = ({ cartObjectsArray }) => {
   return (
     <FormDiv>
       <Form onSubmit={handleSubmit}>
-        <CheckoutTitle>Checkout</CheckoutTitle>
+        <CheckoutTitle>
+          <AiOutlineForm style={{ marginRight: "10px", fontSize: "30px" }} />
+          Checkout form
+        </CheckoutTitle>
+
         <HeadLine>Customer's information</HeadLine>
         <Input
           placeholder="First Name"
@@ -108,7 +113,7 @@ const CustomerForm = ({ cartObjectsArray }) => {
           required
           onChange={handleChange}
         />
-        <HeadLine>Address: </HeadLine>
+        <HeadLine2>Address: </HeadLine2>
         <Input
           placeholder="House Number"
           type="text"
@@ -172,7 +177,14 @@ const HeadLine = styled.h1`
   font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 20px;
-  margin-top: 30px;
+  margin-top: 10px;
+`;
+
+const HeadLine2 = styled.h1`
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
 `;
 const SubmitButton = styled.input`
   font-weight: 500;
@@ -208,7 +220,9 @@ const CheckoutTitle = styled.h3`
   font-family: "IBM Plex Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 800;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid lightgrey;
 `;
 const Form = styled.form`
   display: flex;
