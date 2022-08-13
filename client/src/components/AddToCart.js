@@ -7,22 +7,10 @@ import CartItem from "./CartItem";
 import CustomerForm from "./CustomerFrom";
 
 const AddToCart = () => {
-  const { cart, setCart } = useContext(CartContext);
-  const [cartTotal, setCartTotal] = useState(0);
+  const { cart, setCart, cartTotal, setCartTotal, calculateCartTotal } = useContext(CartContext);
   const [loading, setLoading] = useState();
   const [cartObjectsArray, setCartObjectsArray] = useState([]);
   const cartItemsRef = useRef();
-
-  const calculateCartTotal = (cartObjectsArray) => {
- 
-    const total =  cartObjectsArray.reduce((previousTotal, currentValue, index, arr) => {
-      if (arr[index])
-        return previousTotal + (parseInt(arr[index].qty) * parseFloat(arr[index].price).toFixed(2));
-      else 
-        return previousTotal;
-    }, 0).toFixed(2);
-    return total;
-  };
 
   useEffect(() => {
     let promises = [];

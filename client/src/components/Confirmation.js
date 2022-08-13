@@ -9,7 +9,7 @@ const Confirmation = () => {
   const [loading, setLoading] = useState();
   const [error, setError] = useState(false);
   const [confirmOrderObject, setConfirmOrderObject] = useState([]);
-  const { orderId, setOrderId } = useContext(CartContext);
+  const { orderId, setOrderId, setCart, setCartTotal } = useContext(CartContext);
   const [notCheckedOutItems, setNotCheckedOutItems] = useState([]);
   const [checkedOutItems, setCheckedOutItems] = useState();
   useEffect(() => {
@@ -28,6 +28,8 @@ const Confirmation = () => {
       })
 
       .then(() => {
+        setCart([]);
+        setCartTotal(0);
         setLoading(false);
       })
 

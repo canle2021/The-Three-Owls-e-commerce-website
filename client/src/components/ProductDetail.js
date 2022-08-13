@@ -31,7 +31,6 @@ const ProductDetail = () => {
       })
       .finally(()=> setLoading(false));
   }, [id]);
-  // console.log("data", singleProduct);
 
   const addToCart = () => {
     const newItem = {id, qty};
@@ -69,9 +68,9 @@ const ProductDetail = () => {
             <ProductCategory>{singleProduct.category}</ProductCategory>
             <ProductPrice>{singleProduct.price}</ProductPrice>
             <ProductQty>
-              {(singleProduct.numInStock && getCartItemQty(singleProduct._id) < singleProduct.numInStock) &&
+              {(singleProduct.numInStock <= 0 || (singleProduct.numInStock > 0 && getCartItemQty(singleProduct._id) < singleProduct.numInStock)) &&
               <QuantitySelect id={parseInt(singleProduct._id)} qty={qty} setQty={setQty} inStock={singleProduct.numInStock} showStock={false}/> }
-              <QuantityInStock>{`In Stock(${singleProduct.numInStock})`}</QuantityInStock>
+              {(singleProduct.numInStock > 0) && <QuantityInStock>{`In Stock(${singleProduct.numInStock})`}</QuantityInStock>}
               {(getCartItemQty(singleProduct._id)>0) && <QuantityInCart>{`In Cart(${getCartItemQty(singleProduct._id)})`}</QuantityInCart>}
             </ProductQty> 
             <AddToCartButton disabled={!singleProduct.numInStock || getCartItemQty(singleProduct._id) >= singleProduct.numInStock} onClick={addToCart}>Add To Cart</AddToCartButton>
