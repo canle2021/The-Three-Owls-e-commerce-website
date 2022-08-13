@@ -1,4 +1,3 @@
-// import { Box } from "@material-ui/core";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { CurrentUserContext } from "./CurrentUserContext";
@@ -7,15 +6,13 @@ import categoriesBackground from "../components/asset/categoriesBanner.jpg";
 
 const Catelog = () => {
   const { allCateogries } = useContext(CurrentUserContext);
-  console.log("HELLOOO", allCateogries);
   return (
     <PageContainer>
       <SectionTitle>All categories</SectionTitle>
       <CompContainer>
         {allCateogries &&
           allCateogries.map((categories, index) => {
-            const linkToEachCategory =
-              "/collection/" + `${allCateogries[index]}`;
+            const linkToEachCategory = `/collection/${allCateogries[index]}`;
             return (
               <Link to={linkToEachCategory}>
                 <BoxContainer>

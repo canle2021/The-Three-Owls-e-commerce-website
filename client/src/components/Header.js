@@ -138,11 +138,4 @@ const CartButtonText = styled.div`
   font-weight: 500;
 `;
 
-const CartItemsCount = styled.div`
-  font-size: 8px;
-  height: 8px;
-  display: flex;
-  justify-content: center;
-  background-color: red;
-`;
 export default Header;
