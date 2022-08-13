@@ -36,7 +36,7 @@ const BoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 3px;
   overflow: hidden;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-color: white;

@@ -7,7 +7,8 @@ import CartItem from "./CartItem";
 import CustomerForm from "./CustomerFrom";
 
 const AddToCart = () => {
-  const { cart, setCart, cartTotal, setCartTotal, calculateCartTotal } = useContext(CartContext);
+  const { cart, setCart, cartTotal, setCartTotal, calculateCartTotal } =
+    useContext(CartContext);
   const [loading, setLoading] = useState();
   const [cartObjectsArray, setCartObjectsArray] = useState([]);
   const cartItemsRef = useRef();
@@ -36,46 +37,52 @@ const AddToCart = () => {
       );
     });
 
-    Promise.all(promises).then(() => {
-      setCartObjectsArray(cartArray);
-    })
-    .then(()=>{
-      setCartTotal(calculateCartTotal(cartObjectsArray));
-    })
-    .then(()=>{setLoading(false)})
-  
+    Promise.all(promises)
+      .then(() => {
+        setCartObjectsArray(cartArray);
+      })
+      .then(() => {
+        setCartTotal(calculateCartTotal(cartObjectsArray));
+      })
+      .then(() => {
+        setLoading(false);
+      });
   }, []);
 
-  useEffect(()=> {
-    const updatedCartObjectsArray = cartObjectsArray.map(cartArrayObject=> {
-      const cartItem = cart.find(cartItem => parseInt(cartItem.id) === cartArrayObject._id);
-       if(cartItem) {
-          cartArrayObject.qty = cartItem.qty;
-          return cartArrayObject;
-       }
+  useEffect(() => {
+    const updatedCartObjectsArray = cartObjectsArray.map((cartArrayObject) => {
+      const cartItem = cart.find(
+        (cartItem) => parseInt(cartItem.id) === cartArrayObject._id
+      );
+      if (cartItem) {
+        cartArrayObject.qty = cartItem.qty;
+        return cartArrayObject;
+      }
     });
     if (updatedCartObjectsArray) {
       setCartObjectsArray(updatedCartObjectsArray);
-      setCartTotal(calculateCartTotal(updatedCartObjectsArray))
-    }
-    else {
+      setCartTotal(calculateCartTotal(updatedCartObjectsArray));
+    } else {
       setCartObjectsArray([]);
       setCartTotal(0);
     }
-  }, [cart])
+  }, [cart]);
 
   return !loading ? (
     <>
       <CartPageDiv>
         <PageContainer>
-          <PageTitle>Cart Page</PageTitle>
+          <PageTitle>Cart</PageTitle>
           <CartItems ref={cartItemsRef}>
-            {cartObjectsArray.map((cartObject) => (
-              cartObject && <CartItem key={cartObject._id} cartItem={cartObject} />
-            ))}
+            {cartObjectsArray.map(
+              (cartObject) =>
+                cartObject && (
+                  <CartItem key={cartObject._id} cartItem={cartObject} />
+                )
+            )}
           </CartItems>
           <CartTotal>
-            <TotalAmount> {`Total Order Amount: $${cartTotal}`}</TotalAmount>
+            <TotalAmount> {`Total $${cartTotal}`}</TotalAmount>
           </CartTotal>
           <CheckoutSection>
             {/* <CheckoutButton>Checkout</CheckoutButton> */}
@@ -128,7 +135,7 @@ const PageTitle = styled.div`
   font-family: "IBM Plex Sans", sans-serif;
   text-transform: uppercase;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 `;
 
 const CartItems = styled.div`
@@ -144,6 +151,8 @@ const CartTotal = styled.div`
 `;
 
 const TotalAmount = styled.div`
+  margin-top: 10px;
+  font-size: 25px;
   font-weight: bold;
 `;
 
