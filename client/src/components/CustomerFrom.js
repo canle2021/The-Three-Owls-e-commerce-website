@@ -8,7 +8,6 @@ import { AiOutlineForm } from "react-icons/ai";
 const CustomerForm = ({ cartObjectsArray }) => {
   const { setOrderId, cart } = useContext(CartContext);
   const [values, setValues] = useState(null);
-  const [inputs, setInputs] = useState(null);
   let disabled = true;
   const navagate = useNavigate();
   const handleChange = (event) => {
@@ -19,7 +18,6 @@ const CustomerForm = ({ cartObjectsArray }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setInputs(values);
     if (cart !== "cart" || cart !== []) {
       let objectToBePosted = {
         _id: uuidv4(),
@@ -58,7 +56,7 @@ const CustomerForm = ({ cartObjectsArray }) => {
 
       Promise.all(checkEachItem).then(async () => {
         try {
-          const posting = await fetch(`/add-order`, {
+          await fetch(`/add-order`, {
             method: "POST",
             body: JSON.stringify(objectToBePosted),
             headers: {

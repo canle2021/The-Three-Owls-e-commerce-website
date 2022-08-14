@@ -8,7 +8,6 @@ import { FiLoader } from "react-icons/fi";
 import QuantitySelector from "./QuantitySelector";
 import useModal from "../hooks/useModal";
 
-
 const ProductDetail = () => {
   const { singleProduct, setSingleProduct } = useContext(CurrentUserContext);
   const { cart, setCart, getCartItemQty } = useContext(CartContext);
@@ -17,44 +16,42 @@ const ProductDetail = () => {
   const [qty, setQty] = useState(1);
   const [companyName, setCompanyName] = useState("");
   const [companyUrl, setCompanyUrl] = useState("");
-  const {toggle} = useModal();
+  const { toggle } = useModal();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     setLoading(true);
-
     fetch(`/get-item/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Product does not exist");
-        }  
+        }
         return res.json();
       })
       .then((data) => {
         setSingleProduct(data.data || []);
-  
+
         fetch(`/get-company/${data.data.companyId}`)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Company does not exist");
-          }  
-          return res.json();
-        })
-        .then((data) => {
-          setCompanyName(data.data.name || "");
-          setCompanyUrl(data.data.url);
-        })
-        .catch((err) => {
-          console.log("err", err);
-          navigate("/error");
-        })
-        .finally(() => setLoading(false));
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Company does not exist");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            setCompanyName(data.data.name || "");
+            setCompanyUrl(data.data.url);
+          })
+          .catch((err) => {
+            console.log("err", err);
+            navigate("/error");
+          })
+          .finally(() => setLoading(false));
       })
       .catch((err) => {
         console.log("err", err);
         navigate("/error");
-      })
+      });
   }, [id]);
 
   const addToCart = () => {
@@ -86,7 +83,10 @@ const ProductDetail = () => {
       <PageContainer>
         <ProductImg imageSrc={singleProduct.imageSrc} />
         <ProductInformation>
-          <ProductCategory><Link href={companyUrl} target="_blank">{`${companyName}`}</Link> {` | ${singleProduct.category}`}</ProductCategory>
+          <ProductCategory>
+            <Link href={companyUrl} target="_blank">{`${companyName}`}</Link>{" "}
+            {` | ${singleProduct.category}`}
+          </ProductCategory>
           <ProductName>{singleProduct.name}</ProductName>
           <ProductPrice>{singleProduct.price}</ProductPrice>
           <ProductQty>
