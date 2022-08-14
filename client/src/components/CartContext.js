@@ -9,6 +9,7 @@ const CartProvider = ({ children }) => {
   );
   const [cart, setCart] = usePersistedState([], "cart");
   const [cartTotal, setCartTotal] = useState();
+  const [isShowing, setIsShowing] = useState(false);
 
   const getCartItemQty = (id) => {
     if (!cart || cart.length === 0) {
@@ -37,7 +38,7 @@ const CartProvider = ({ children }) => {
 
 
   return (
-    <CartContext.Provider value={{ cart, setCart, orderId, setOrderId, getCartItemQty, cartTotal, setCartTotal,  calculateCartTotal}}>
+    <CartContext.Provider value={{ cart, setCart, orderId, setOrderId, getCartItemQty, cartTotal, setCartTotal,  calculateCartTotal, isShowing, setIsShowing}}>
       {" "}
       {children}{" "}
     </CartContext.Provider>

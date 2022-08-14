@@ -11,7 +11,12 @@ import logo from "../components/asset/logo.png";
 import Confirmation from "./Confirmation";
 import ErrorPage from "./ErrorPage";
 import ConstructionPage from "./ConstructionPage";
+import ModalAddedToCart from "./ModalAddedToCart";
+import useModal from "../hooks/useModal";
+import './app.css';
+
 function App() {
+  const {isShowing, toggle} = useModal();
   return (
     <Router>
       <SizeContainer>
@@ -25,9 +30,17 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/construction" element={<ConstructionPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
       </SizeContainer>
+      <div className="App">
+        <ModalAddedToCart
+          isShowing={isShowing}
+          hide={toggle}
+          message="Added to the cart"
+        />
+      </div>
     </Router>
   );
 }
