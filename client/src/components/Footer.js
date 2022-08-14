@@ -32,8 +32,8 @@ const FirstSection = ({ allCateogries }) => {
         {allCateogries &&
           allCateogries.map((categories) => {
             return (
-              <Link to={`/collection/${categories}`}>
-                <LinkSelect key={categories}>{categories}</LinkSelect>
+              <Link key={categories} to={`/collection/${categories}`}>
+                <LinkSelect>{categories}</LinkSelect>
               </Link>
             );
           })}
