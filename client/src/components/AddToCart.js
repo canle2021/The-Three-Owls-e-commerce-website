@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, { useEffect, useState, useContext, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import { CartContext } from "./CartContext";

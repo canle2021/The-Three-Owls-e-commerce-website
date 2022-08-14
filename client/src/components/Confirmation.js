@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable*/
 
+import React, { useContext, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { CartContext } from "./CartContext";
 import { FiLoader } from "react-icons/fi";
@@ -17,13 +18,11 @@ const Confirmation = () => {
     setLoading(true);
     fetch(`/get-single-order/${orderId}`)
       .then((res) => {
-        console.log("res", res);
         setError(res.ok);
         return res.json();
       })
       .then((data) => {
         setConfirmOrderObject(data.data || []);
-        console.log("line 24 confirmOrderObject", confirmOrderObject);
         setCheckedOutItems(data.data.successfullyCheckoutItems);
         setNotCheckedOutItems(data.data.failedCheckoutItems);
       })
@@ -39,12 +38,7 @@ const Confirmation = () => {
       });
   }, [orderId]);
   let totalPrice = 0;
-  console.log("checkedOutItems", checkedOutItems);
 
-  console.log(
-    "CheckedoutItems",
-    confirmOrderObject && confirmOrderObject.successfullyCheckoutItems
-  );
   checkedOutItems &&
     checkedOutItems.forEach((element) => {
       totalPrice += Number(element.price) * Number(element.qty);
