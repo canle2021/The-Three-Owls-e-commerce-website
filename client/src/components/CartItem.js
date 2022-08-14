@@ -5,11 +5,13 @@ import styled from "styled-components";
 import { CartContext } from "./CartContext";
 import QuantitySelector from "./QuantitySelector";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate, NavLink } from "react-router-dom";
 
 const CartItem = ({ cartItem }) => {
   const cartItemRef = useRef();
   const { cart, setCart } = useContext(CartContext);
   const [qty, setQty] = useState(cartItem.qty);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedCart = cart.map((anItem) => {
@@ -35,12 +37,14 @@ const CartItem = ({ cartItem }) => {
   return (
     <CartItemContainer ref={cartItemRef}>
       <ItemImage>
-        <img
-          src={cartItem.imageSrc}
-          width="100%"
-          height="100%"
-          alt="productImg"
-        />
+        <NavLink to={`/product/${cartItem._id}`}>
+          <img
+            src={cartItem.imageSrc}
+            width="100%"
+            height="100%"
+            alt="productImg"
+          />
+        </NavLink>
       </ItemImage>
       <ItemDetails>
         <ItemDescription>{cartItem.name}</ItemDescription>
