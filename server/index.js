@@ -2,25 +2,22 @@
 
 const express = require("express");
 const morgan = require("morgan");
-
 const {
   getItems,
-  getCompanies,
   getSingleProduct,
-  getSingleCompany,
-  getSingleCategory,
-  getProductByCompany,
-  getCategories,
-  getSingleCustomer,
   getItemStock,
-  addCustomer,
   updateItem,
   updateItemStock,
-  checkOut,
-  getOrders,
-  addOrder,
-  getSingleOrder,
-} = require("./handlers");
+} = require("./itemHandlers");
+const {
+  getCompanies,
+  getProductByCompany,
+  getSingleCompany,
+} = require("./companyHandlers");
+const { getOrders } = require("./orderHandlers");
+const { getSingleCustomer, addCustomer } = require("./customerHandlers");
+const { getSingleCategory, getCategories } = require("./categoryHandlers");
+const { checkOut, addOrder, getSingleOrder } = require("./checkOutHandlers");
 
 const PORT = 4000;
 
