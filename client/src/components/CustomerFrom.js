@@ -28,29 +28,31 @@ const CustomerForm = ({ cartObjectsArray }) => {
       setOrderId(objectToBePosted._id);
       localStorage.setItem("orderId", `${objectToBePosted._id}`);
       const checkEachItem = cartObjectsArray.map(async (item) => {
-        const checkEachTime = {
-          ...item,
-          ...values,
-        };
+        if (item !== undefined) {
+          const checkEachTime = {
+            ...item,
+            ...values,
+          };
 
-        try {
-          const posting = await fetch(`/verify-for-checkout`, {
-            method: "POST",
-            body: JSON.stringify(checkEachTime),
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          });
-          const converToJson = await posting.json();
+          try {
+            const posting = await fetch(`/verify-for-checkout`, {
+              method: "POST",
+              body: JSON.stringify(checkEachTime),
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            });
+            const converToJson = await posting.json();
 
-          if (converToJson.status === 200) {
-            objectToBePosted.successfullyCheckoutItems.push(item);
-          } else {
-            objectToBePosted.failedCheckoutItems.push(item);
+            if (converToJson.status === 200) {
+              objectToBePosted.successfullyCheckoutItems.push(item);
+            } else {
+              objectToBePosted.failedCheckoutItems.push(item);
+            }
+          } catch (err) {
+            console.log(err);
           }
-        } catch (err) {
-          console.log(err);
         }
       });
 

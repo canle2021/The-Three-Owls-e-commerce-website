@@ -11,6 +11,9 @@ const ProductSection = () => {
       .then((data) => {
         setLoading(false);
         setAllItem(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
   const sliceItem =
