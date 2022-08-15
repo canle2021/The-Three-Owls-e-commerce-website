@@ -109,7 +109,7 @@ const NavLink = styled.a`
 
 const LogoImg = styled.img`
   width: auto;
-  height: auto;
+  height: 100%;
   &:hover {
     cursor: pointer;
   }

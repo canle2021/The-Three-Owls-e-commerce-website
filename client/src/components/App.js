@@ -7,7 +7,7 @@ import CollectionPage from "./CollectionPage";
 import ProductDetail from "./ProductDetail";
 import AddToCart from "./AddToCart";
 import Footer from "./Footer";
-import logo from "../components/asset/logo.png";
+import logo from "../components/asset/3Owls.png";
 import Confirmation from "./Confirmation";
 import ErrorPage from "./ErrorPage";
 import ConstructionPage from "./ConstructionPage";
