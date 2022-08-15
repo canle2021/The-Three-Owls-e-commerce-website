@@ -23,8 +23,8 @@ const Confirmation = () => {
       })
       .then((data) => {
         setConfirmOrderObject(data.data || []);
-        setCheckedOutItems(data.data.successfullyCheckoutItems);
-        setNotCheckedOutItems(data.data.failedCheckoutItems);
+        setCheckedOutItems(data.data.successfullyCheckoutItems || []);
+        setNotCheckedOutItems(data.data.failedCheckoutItems || []);
       })
 
       .then(() => {
@@ -102,7 +102,7 @@ const Confirmation = () => {
                   <CartTotal>
                     <TotalAmount>
                       {" "}
-                      {`Total Order's Price: $${totalPrice}`}
+                      {`Total Order's Price: $${totalPrice.toFixed(2)}`}
                     </TotalAmount>
                   </CartTotal>
                 </SuccessfulCheckoutDiv>
